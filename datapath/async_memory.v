@@ -31,7 +31,7 @@ module async_memory(
 	);
 	parameter	MEM_ADDR = 16'h1000;
 	parameter	DO_INIT = 0;
-	parameter	INIT_PROGRAM0 = "c:/altera/11.1sp1/141/hello_world.data_ram0.memh";
+	parameter	INIT_PROGRAM0 = "c:/altera/11.1sp1/141/hello_world.data_ram0.memh"; // points to blank file
 	parameter	INIT_PROGRAM1 = "c:/altera/11.1sp1/141/hello_world.data_ram1.memh";
 	parameter	INIT_PROGRAM2 = "c:/altera/11.1sp1/141/hello_world.data_ram2.memh";
 	parameter	INIT_PROGRAM3 = "c:/altera/11.1sp1/141/hello_world.data_ram3.memh";
