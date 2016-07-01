@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module processor(
 	input clock,
 	input reset,
@@ -11,3 +13,5 @@ module processor(
 	output serial_rden_out,
 	output serial_wren_out
 );
+
+endmodule
