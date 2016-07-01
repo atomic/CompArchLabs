@@ -56,10 +56,12 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VERILOG_FILE inst_rom_split.v
+set_global_assignment -name VERILOG_FILE inst_rom.v
 set_global_assignment -name VERILOG_FILE test_adder.v
 set_global_assignment -name VERILOG_FILE adder.v
 set_global_assignment -name VERILOG_FILE mux2to1.v
-set_global_assignment -name VERILOG_FILE inst_rom.v
 set_global_assignment -name VERILOG_FILE alu.v
 set_global_assignment -name VERILOG_FILE async_memory.v
 set_global_assignment -name VERILOG_FILE testbench.v
@@ -67,4 +69,4 @@ set_global_assignment -name VERILOG_FILE data_memory.v
 set_global_assignment -name VERILOG_FILE serial_buf.v
 set_global_assignment -name VERILOG_FILE processor.v
 set_global_assignment -name VERILOG_FILE test_datapath.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VERILOG_FILE instrom_split.v

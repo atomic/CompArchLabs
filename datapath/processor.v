@@ -14,4 +14,13 @@ module processor(
 	output serial_wren_out
 );
 
+	// only put 32 bit pc
+	// no need bus splitter module
+	reg [31:0] pc;
+	wire [31:0] ins;
+	inst_rom insROM( clock, reset, pc, ins);
+	
+//	inst_rom_split insSplitted( ins, )
+	// add more wires and stuffs, see slides
+	 
 endmodule
