@@ -3,14 +3,14 @@
 
 module inst_rom_split(
     input [31:0] in,
-    output [4:0] a, b, c,
-    output [15:0] d
+    output [4:0] r1, r2, m1,
+    output [15:0] s
     );
 
-assign a = in[25:21];
-assign b = in[20:16];
-assign c = in[15:11];
-assign d = in[15:0];
+assign r1 = in[25:21];
+assign r2 = in[20:16];
+assign m1 = in[15:11];
+assign s  = in[15:0];
 
 
 endmodule

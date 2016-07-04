@@ -18,9 +18,62 @@ module processor(
 	// no need bus splitter module
 	reg [31:0] pc;
 	wire [31:0] ins;
-	inst_rom insROM( clock, reset, pc, ins);
 	
-//	inst_rom_split insSplitted( ins, )
+	// PC into instruction memory
+	inst_rom #(.INIT_PROGRAM("blank.memh")	)
+				insROM( clock, reset, pc, ins);
+	
+	// instruction memory to bus split wires(a,b,c,d see
+	wire [4:0] r1,r2,m1;
+	wire [15:0] s;
+	inst_rom_split insSplitted( ins, r1, r2, m1, s);
+	
+	// temporary selector for 2:1 mux before reg file
+	wire RegDstTemp;
+	wire [4:0] readWriteOut;
+	mux2to1 readWrite( r2, m1, RegDstTemp, readWriteOut);
+	
+	// reg file stuff
+	wire RegWriteTemp;
+	wire [31:0] writedata; // from data memory mux to reg file
+	wire [31:0] readdata1, readdata2;
+	regfile RegFile (clock, RegWriteTemp, r1, r2, readWriteOut, writedata,
+							readdata1, readdata2);
+	
+	// sign extender for last 16 bit of instruction
+	wire [31:0] extended_s;
+	sign_extender Extender( s, extended_s);
+	
+	// mux for ALUSrc
+	wire ALUsrcTemp;
+	wire [31:0] alu_b;
+	mux2to1 #(32) MuxRegFileToAlu ( readdata2, extended_s, ALusrcTemp, alu_b);
+	
+	//ALU component of processor
+	wire [5:0] ALUopTemp;  //Not 100% sure if this is a control signal, look at lab2 diagram
+	wire branch, jump;
+	wire [31:0] ALU_out;
+	alu ALU(ALUopTemp, readdata1, readdata2, ALU_out, branch, jump);
+	
+	//Data Memory Component
+	wire RE, WE;
+	wire [1:0] size; //Don't know what this is, ask the TA or Tutor
+	wire [31:0] dMemoryOut;
+	
+	data_memory #(.INIT_PROGRAM0("blank.memh"),
+					  .INIT_PROGRAM1("blank.memh"),
+					  .INIT_PROGRAM2("blank.memh"),
+					  .INIT_PROGRAM3("blank.memh") )
+				dMemory( clock, reset, ALU_out, readdata2, RE, WE, size, dMemoryOut, 
+							serial_in, serial_ready_in, serial_valid_in, 
+							serial_out, serial_rden_out, serial_wren_out);
+			
+	//mux for data memory	
+	wire memToRegTemp;
+	mux2to1 #(32) MuxDmemoryToRegfile ( dMemoryOut, ALU_out, memToRegTemp, writedata);
+				
+	
 	// add more wires and stuffs, see slides
+	
 	 
 endmodule
