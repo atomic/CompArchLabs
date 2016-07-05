@@ -18,13 +18,23 @@ module regfile(
 //		rdata1 = array[rr1]
 //		rdata2 = array[rr2]
 
+    // TODO: write instruction is edge triggered later
+    //       read instruction is edge triggered earlier
 	always @(posedge clock) begin
-		if	(regwrite)
-			array[wr] <= write_data;
-		else begin
+		if	(!regwrite)
+		begin
 			rdata1 <= array[rr1];
 			rdata2 <= array[rr2];
 		end
+	end
+
+    // Read --> ALU stuff -> Write (In 1 clock cycle)
+    // See page 253 for more explanation
+	always @(negedge clock) begin
+        if	(regwrite)
+        begin
+            array[wr] <= write_data;
+        end
 	end
 	
 endmodule
