@@ -1,10 +1,4 @@
 `timescale 1ns / 1ps
-/*
- * CSE141L Lab1: Be a Hardware Hacker!
- * University of Califo`rnia, San Diego
- * 
- * Written by Donghwan Jeon, 4/1/2007
- */
  
 module adder#(parameter W = 32)
 (
@@ -29,6 +23,7 @@ begin
 //    regOdd <= regA[0] ^ regB[0]; // fixed delay
     // regOdd <= (out[0] == 1) ? 1: 0; // old one
 	 out <= inA + inB;
+//	 assign out = 4 + inB;
 end
 
 endmodule

@@ -16,7 +16,8 @@ module processor(
 
 	// only put 32 bit pc
 	// no need bus splitter module
-	reg [31:0] pc;
+	reg [31:0] pc = 32'h0040_0000;
+	wire [31:0] pcn;
 	wire [31:0] ins;
 	
 	// PC into instruction memory
@@ -28,6 +29,12 @@ module processor(
 	wire [15:0] s;
 	inst_rom_split insSplitted( ins, r1, r2, m1, s);
 	
+	// Add 4 adder
+	adder_4 add4toPC( pc, pcn );// TODO: how to update pc for next cycle
+	always @ (posedge clock) begin
+		pc <= pcn;
+	end
+	
 	// temporary selector for 2:1 mux before reg file
 	wire RegDstTemp;
 	wire [4:0] readWriteOut;
@@ -35,10 +42,9 @@ module processor(
 	
 	// reg file stuff
 	wire RegWriteTemp;
-	wire [31:0] writedata; // from data memory mux to reg file
-	wire [31:0] readdata1, readdata2;
-	regfile RegFile (clock, RegWriteTemp, r1, r2, readWriteOut, writedata,
-							readdata1, readdata2);
+	wire [31:0] write_data; // from data memory mux to reg file
+	wire  [31:0] rdata1, rdata2;	// TODO: Error here, cant use either reg or wire
+	regfile RegFile (clock, RegWriteTemp, r1, r2, readWriteOut, write_data, rdata1, rdata2);
 	
 	// sign extender for last 16 bit of instruction
 	wire [31:0] extended_s;
@@ -47,13 +53,13 @@ module processor(
 	// mux for ALUSrc
 	wire ALUsrcTemp;
 	wire [31:0] alu_b;
-	mux2to1 #(32) MuxRegFileToAlu ( readdata2, extended_s, ALusrcTemp, alu_b);
+	mux2to1 #(32) MuxRegFileToAlu ( rdata2, extended_s, ALusrcTemp, alu_b);
 	
 	//ALU component of processor
 	wire [5:0] ALUopTemp;  //Not 100% sure if this is a control signal, look at lab2 diagram
 	wire branch, jump;
 	wire [31:0] ALU_out;
-	alu ALU(ALUopTemp, readdata1, readdata2, ALU_out, branch, jump);
+	alu ALU(ALUopTemp, rdata1, rdata2, ALU_out, branch, jump);
 	
 	//Data Memory Component
 	wire RE, WE;
@@ -64,7 +70,7 @@ module processor(
 					  .INIT_PROGRAM1("blank.memh"),
 					  .INIT_PROGRAM2("blank.memh"),
 					  .INIT_PROGRAM3("blank.memh") )
-				dMemory( clock, reset, ALU_out, readdata2, RE, WE, size, dMemoryOut, 
+				dMemory( clock, reset, ALU_out, rdata2, RE, WE, size, dMemoryOut, 
 							serial_in, serial_ready_in, serial_valid_in, 
 							serial_out, serial_rden_out, serial_wren_out);
 			
