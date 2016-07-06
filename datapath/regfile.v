@@ -2,6 +2,7 @@
 
 module regfile(
 	input clock,
+	input reset,
 	input regwrite,
 	input [4:0] rr1, rr2, wr,
 	input [31:0] write_data,
@@ -18,23 +19,33 @@ module regfile(
 //		rdata1 = array[rr1]
 //		rdata2 = array[rr2]
 
-    // TODO: write instruction is edge triggered later
-    //       read instruction is edge triggered earlier
-	always @(posedge clock) begin
-		if	(!regwrite)
-		begin
-			rdata1 <= array[rr1];
-			rdata2 <= array[rr2];
-		end
-	end
+	// array[0] is always 0
+	 // TODO: ask TA what to do with $v0-$v1, and other non-saved register
 
-    // Read --> ALU stuff -> Write (In 1 clock cycle)
+   initial begin
+	 // initiall everything to zero, execptt 
+//		for(i=0; i<28; i = i + 1)	begin 
+//			array[i] = 0;
+//		end
+//		array[30] = 0;
+//		array[31] = 0;
+	end
+	 
+	 // Read --> ALU stuff -> Write (In 1 clock cycle)
     // See page 253 for more explanation
-	always @(negedge clock) begin
-        if	(regwrite)
+	always @(posedge clock) begin
+        if	(regwrite && wr != 0)
         begin
             array[wr] <= write_data;
         end
 	end
+	
+	// asyncrounous
+	always @(*) begin
+		rdata1 = array[rr1];
+		rdata2 = array[rr2];
+	end
+
+    
 	
 endmodule

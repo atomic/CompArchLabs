@@ -30,8 +30,8 @@ module processor(
 	inst_rom_split insSplitted( ins, r1, r2, m1, s);
 	
 	// Add 4 adder
-	adder_4 add4toPC( pc, pcn );// TODO: how to update pc for next cycle
-	always @ (posedge clock) begin
+	adder_4 add4toPC( pc, pcn );
+	always @ (negedge clock) begin // update after being sent to
 		pc <= pcn;
 	end
 	
