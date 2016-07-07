@@ -13,6 +13,7 @@
 **
 **  Change Log:
 **  1/13/2012 - Adrian Caulfield - Initial Implementation
+**  1/22/2012 - Adrian Caulfield - Added code to initialize all words to 0xADADADAD
 **
 **
 **  NOTE:  The Provided Modules do NOT follow the course coding standards
@@ -31,7 +32,7 @@ module async_memory(
 	);
 	parameter	MEM_ADDR = 16'h1000;
 	parameter	DO_INIT = 0;
-	parameter	INIT_PROGRAM0 = "c:/altera/11.1sp1/141/hello_world.data_ram0.memh"; // points to blank file
+	parameter	INIT_PROGRAM0 = "c:/altera/11.1sp1/141/hello_world.data_ram0.memh";
 	parameter	INIT_PROGRAM1 = "c:/altera/11.1sp1/141/hello_world.data_ram1.memh";
 	parameter	INIT_PROGRAM2 = "c:/altera/11.1sp1/141/hello_world.data_ram2.memh";
 	parameter	INIT_PROGRAM3 = "c:/altera/11.1sp1/141/hello_world.data_ram3.memh";
@@ -40,15 +41,8 @@ module async_memory(
 	localparam NUM_WORDS = 1024;
 	localparam NUM_WORDS_LOG = 10;
 	
-	initial begin
-		if (DO_INIT == 1) begin
-			$readmemh(INIT_PROGRAM0, mem0);
-			$readmemh(INIT_PROGRAM1, mem1);
-			$readmemh(INIT_PROGRAM2, mem2);
-			$readmemh(INIT_PROGRAM3, mem3);
-		end
-	end
-	
+	integer i;
+
 	//memory for 4KB of data
 	reg [7:0] mem3	[0:NUM_WORDS-1]; //31:24
 	reg [7:0] mem2	[0:NUM_WORDS-1]; //23:16
@@ -57,6 +51,23 @@ module async_memory(
 	
 	reg	[31:0]	rd;
 	assign data_out = rd;
+
+	
+	initial begin
+		for(i=0; i<NUM_WORDS; i=i+1) begin
+			mem0[i] = 8'hAD;
+			mem1[i] = 8'hAD;
+			mem2[i] = 8'hAD;
+			mem3[i] = 8'hAD;
+		end
+		if (DO_INIT == 1) begin
+			$readmemh(INIT_PROGRAM0, mem0);
+			$readmemh(INIT_PROGRAM1, mem1);
+			$readmemh(INIT_PROGRAM2, mem2);
+			$readmemh(INIT_PROGRAM3, mem3);
+		end
+	end
+	
 	
 	//read data all the time
 	/*
