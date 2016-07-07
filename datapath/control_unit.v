@@ -4,8 +4,8 @@ module control_unit (
 	input [5:0] opcode,
 	input [5:0] funct,
 
-	output [5:0] func_in,
-    output [6:0] signals
+	output reg [5:0] func_in,
+    output reg [6:0] signals
 );
 
 always @(*) begin
@@ -45,3 +45,4 @@ always @(*) begin
       end
     endcase
 end
+endmodule

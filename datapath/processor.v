@@ -27,7 +27,9 @@ module processor(
 	// instruction memory to bus split wires(a,b,c,d see
 	wire [4:0] r1,r2,m1;
 	wire [15:0] s;
-	inst_rom_split insSplitted( ins, r1, r2, m1, s);
+	wire [5:0] opcode, funct;
+	inst_rom_split insSplitted( ins, r1, r2, m1, s, opcode, funct);
+	
 	
 	// Add 4 adder
 	adder_4 add4toPC( pc, pcn );
