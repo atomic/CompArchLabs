@@ -5,27 +5,43 @@ module control_unit (
 	input [5:0] funct,
 
 	output [5:0] func_in,
-	output RegDst ,
-	output ALUSrc ,
-	output RegWrite ,
-	output MemRead ,
-	output MemWrite ,
-	output MemToReg ,
-	output Branch
+    output [6:0] signals
 );
 
 always @(*) begin
-	case (opcode)
-		6'h23:
-			begin
-				func_in = 6'b100000;
-				RegDst  = 0;
-				ALUSrc  = 1;
-				RegWrite= 1;
-				MemRead = 1;
-				MemWrite= 0;
-				MemToReg= 1;
-				Branch  = 0;
-			end
-		
-	endcase
+    case( opcode )
+      6'h23: begin
+          func_in = 6'b100000; signals = 7'b0111010;
+      end
+      6'h2b:begin
+          func_in = 6'b100000; signals = 7'bx1001x0;
+      end
+      6'h8:begin
+          func_in = 6'b100000; signals = 7'b0110000;
+      end
+      default: begin
+          case( funct )
+            6'h20: begin
+                func_in = 6'b100000; signals = 7'b1010000;
+            end
+            6'h22: begin
+                func_in = 6'b100010; signals = 7'b1010000;
+            end
+            6'h24: begin
+                func_in = 6'b100100; signals = 7'b1010000;
+            end
+            6'h25: begin
+                func_in = 6'b100101; signals = 7'b1010000;
+            end
+            6'h27: begin
+                func_in = 6'b100111; signals = 7'b1010000;
+            end
+            6'h26: begin
+                func_in = 6'b100110; signals = 7'b1010000;
+            end
+            default: begin
+            end
+          endcase
+      end
+    endcase
+end
