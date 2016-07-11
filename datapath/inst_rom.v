@@ -25,7 +25,8 @@ module inst_rom (
 	reg [31:0] out;
 	
 	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes
-	
+	// assign data_out = out; //flip bytes\
+
 	initial
 	begin
 		$readmemh(INIT_PROGRAM, rom);

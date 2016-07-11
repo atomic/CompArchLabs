@@ -59,13 +59,14 @@ module processor(
 
 	
 	// PC into instruction memory
-	inst_rom #(.INIT_PROGRAM("blank.memh")	)
+	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder
 	adder_4 add4toPC( pc, pcn );
 	always @ (negedge clock) begin // update after being sent to
-		pc <= pcn;
+		if(!reset)
+			pc <= pcn;
 	end
 	
 	// instruction memory to bus split wires(a,b,c,d see
@@ -102,7 +103,7 @@ module processor(
 							serial_out, serial_rden_out, serial_wren_out);
 			
 	//mux for data memory	
-	mux2to1 #(32) MuxDmemoryToRegfile ( output_data, ALU_out, MemToReg, writedata);
+	mux2to1 #(32) MuxDmemoryToRegfile ( output_data, ALU_out, MemToReg, write_data);
 				
 	
 	// add more wires and stuffs, see slides
