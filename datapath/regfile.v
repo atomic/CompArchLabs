@@ -24,9 +24,10 @@ module regfile#(parameter W = 32)(
 				array[i] <= 0;
 			end
 		end
-		else begin
-			if	(regwrite && wr_in != 0) 
+		else begin 
+			if	(regwrite && wr_in != 0) begin
 				array[wr_in] <= write_data_in;
+			end
 		end
 	end
 	

@@ -21,6 +21,8 @@ module processor(
 	// only put 32 bit pc
 	// no need bus splitter module
 	reg [31:0]      pc = 32'h0040_0000;
+//	reg [31:0]      pc = 32'h003F_FFFC; // for 
+	
 	wire [31:0]     pcn;    // value of PC that is to be incremented or updated
 
 	wire [31:0]     ins;
@@ -52,7 +54,7 @@ module processor(
 	
 	/////////////////// wires for MEM //////////////////////////
 	//Data Memory Component
-	wire [1:0]      size;// load byte, load half word, etc
+	wire [1:0]      size = 2'b11;// load byte, load half word, etc
 	wire [31:0]     output_data;
 	
 	// wires for writeback
@@ -60,7 +62,8 @@ module processor(
 
 	
 	// PC into instruction memory
-	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
+//	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
+	inst_rom #(.INIT_PROGRAM("nbhelloworld.inst_rom.memh")	)
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder
