@@ -159,8 +159,8 @@ module processor(
 	//  mux for data memory to determine whether to write to register
     //  the result of ALU or the value loaded from memory
 	mux2to1 #(32) DmemoryToRegfile_mux (
-                    .A_in   ( output_data ) ,
-                    .B_in   ( ALU_out     ) ,
+                    .B_in   ( output_data ) ,
+                    .A_in   ( ALU_out     ) ,
                     .sel_in ( MemToReg    ) ,
                     .Y_out  ( write_data  )
     );
