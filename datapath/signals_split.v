@@ -6,12 +6,12 @@ module signals_split (
 );
 
 
-assign RegDst = signals[6];
-assign ALUsrc = signals[5];
+assign RegDst   = signals[6];
+assign ALUsrc   = signals[5];
 assign RegWrite = signals[4];
-assign MemRead = signals[3];
+assign MemRead  = signals[3];
 assign MemWrite = signals[2];
 assign MemToReg = signals[1];
-assign Branch = signals[0];
+assign Branch   = signals[0];
 
 endmodule
