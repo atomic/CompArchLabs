@@ -147,8 +147,10 @@ module processor(
 					.INIT_PROGRAM3("blank.memh") )
     dMemory(
         clock       , reset    ,
+		  
         ALU_out     , rdata2   ,
-        MemRead     , MemWrite , size ,
+        MemRead     , MemWrite , 
+		  size ,
 
         output_data , // Read Data out
 
@@ -159,8 +161,8 @@ module processor(
 	//  mux for data memory to determine whether to write to register
     //  the result of ALU or the value loaded from memory
 	mux2to1 #(32) DmemoryToRegfile_mux (
-                    .B_in   ( output_data ) ,
-                    .A_in   ( ALU_out     ) ,
+                    .B_in   ( output_data ) ,// MemToReg == 1
+                    .A_in   ( ALU_out     ) ,// MemToReg == 0
                     .sel_in ( MemToReg    ) ,
                     .Y_out  ( write_data  )
     );
