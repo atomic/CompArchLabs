@@ -52,7 +52,6 @@
 *example*
 *~
 *.sdc
-*.tcl
 *.pin
 *.mif
 *.hex
@@ -64,3 +63,6 @@ simulation/
 timing/
 testbench/
 *_sim/
+work/*
+*.qdb
+*.wlf
