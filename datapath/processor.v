@@ -134,7 +134,7 @@ module processor(
 	alu ALU(
         .Func_in    ( ALU_Ctrl ) ,
         .A_in       ( rdata1   ) ,
-        .B_in       ( rdata2   ) ,
+        .B_in       ( alu_b    ) ,
         .O_out      ( ALU_out  ) ,
         .Branch_out ( branch   ) ,
         .Jump_out   ( jump     )
@@ -146,9 +146,14 @@ module processor(
 					.INIT_PROGRAM2("blank.memh"),
 					.INIT_PROGRAM3("blank.memh") )
     dMemory(
-        clock           , reset             , ALU_out         , rdata2      ,
-        MemRead         , MemWrite          , size            , output_data ,
-        serial_in       , serial_ready_in   , serial_valid_in , serial_out  ,
+        clock       , reset    ,
+        ALU_out     , rdata2   ,
+        MemRead     , MemWrite , size ,
+
+        output_data , // Read Data out
+
+        // PORTS 
+        serial_in       , serial_ready_in   , serial_valid_in , serial_out ,
         serial_rden_out , serial_wren_out);
 
 	//  mux for data memory to determine whether to write to register
