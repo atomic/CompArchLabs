@@ -146,17 +146,22 @@ module processor(
 					.INIT_PROGRAM2("blank.memh"),
 					.INIT_PROGRAM3("blank.memh") )
     dMemory(
-        clock       , reset    ,
-		  
-        ALU_out     , rdata2   ,
-        MemRead     , MemWrite , 
-		  size ,
 
-        output_data , // Read Data out
-
-        // PORTS 
-        serial_in       , serial_ready_in   , serial_valid_in , serial_out ,
-        serial_rden_out , serial_wren_out);
+        .clock           ( clock           ),
+        .reset           ( reset           ),
+        .addr_in         ( ALU_out         ),
+        .writedata_in    ( rdata2          ),
+        .re_in           ( MemRead         ),
+        .we_in           ( MemWrite        ),
+        .size_in         ( size            ),
+        .readdata_out    ( output_data     ),
+        .serial_in       ( serial_in       ),
+        .serial_ready_in ( serial_ready_in ),
+        .serial_valid_in ( serial_valid_in ),
+        .serial_out      ( serial_out      ),
+        .serial_rden_out ( serial_rden_out ),
+        .serial_wren_out ( serial_wren_out )
+    );
 
 	//  mux for data memory to determine whether to write to register
     //  the result of ALU or the value loaded from memory
