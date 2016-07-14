@@ -63,7 +63,10 @@ module processor(
 	
 	// PC into instruction memory
 //	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
-	inst_rom #(.INIT_PROGRAM("nbhelloworld.inst_rom.memh")	)
+	inst_rom #(
+				.ADDR_WIDTH(10),
+				.INIT_PROGRAM("lab3-test.inst_rom.memh")
+				)
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder
