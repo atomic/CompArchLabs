@@ -33,7 +33,8 @@ module processor(
 	wire [6:0]      signals;
 	wire [5:0]      opcode, funct;
 	wire            RegDst, ALUsrc, RegWrite, 
-                    MemRead, MemWrite, MemToReg, Branch;
+                    MemRead, MemWrite, MemToReg, Branch, jump;
+	wire [1:0] 		 size_in;
 	
 	// Wires for Register FIle
 	wire [4:0]      r1,r2,m1;
