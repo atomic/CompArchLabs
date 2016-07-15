@@ -30,10 +30,10 @@ module processor(
 	//////////// wires for instruction decode //////////////////
 	
 	// control unit
-	wire [6:0]      signals;
+	wire [9:0]      signals;
 	wire [5:0]      opcode, funct;
 	wire            RegDst, ALUsrc, RegWrite, 
-                    MemRead, MemWrite, MemToReg, Branch, jump;
+                    MemRead, MemWrite, MemToReg, Branch, Jump;
 	wire [1:0] 		 size_in;
 	
 	// Wires for Register FIle
@@ -43,19 +43,25 @@ module processor(
 	
 	wire [31:0]     write_data; // from data memory mux to reg file
 	wire  [31:0]    rdata1, rdata2;
-	wire [31:0]     extended_s;
+	wire  [31:0]    extended_s;
+	wire [31:0]     shifted_s;
+	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
+	wire [28:0]		 inst_shift_before;
+	wire [28:0]		 inst_shift_after;
+	wire [31:0]     jump_address;
 	
 	////////////////// wires for execute //////////////////////
 	
 	// ALU 
 	wire [31:0]     alu_b;
 	wire [5:0]      ALU_Ctrl;
-	wire            branch, jump;
+	wire            BranchOut, JumpOut;
+	wire 				 JumpOrBranch;		// 
 	wire [31:0]     ALU_out;
 	
 	/////////////////// wires for MEM //////////////////////////
 	//Data Memory Component
-	wire [1:0]      size = 2'b11;// load byte, load half word, etc
+//	wire [1:0]      size = 2'b11;// no longer used in lab4
 	wire [31:0]     output_data;
 	
 	// wires for writeback
@@ -70,11 +76,15 @@ module processor(
 				)
 				insROM( clock, reset, pc, ins);
 				
-	// Add 4 adder
+	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
 	always @ (negedge clock) begin // update after being sent to
-		if(!reset)
-			pc <= pcn;
+		if(!reset) begin
+			if( JumpOrBranch ) 
+				pc <= jump_address;
+			else
+				pc <= pcn;
+		end
 	end
 	
 	// instruction memory to bus split wires(a,b,c,d see
@@ -85,7 +95,8 @@ module processor(
         .m1_out     ( m1     ) ,
         .s_out      ( s      ) ,
         .opcode_out ( opcode ) ,
-        .funct_out  ( funct  )
+        .funct_out  ( funct  ) ,
+		  .inst_shift ( inst_shift_before )
     );
 	
 	// control unit - instruction to rest of processor
@@ -96,9 +107,12 @@ module processor(
         .signals  ( signals  )      // output (further splitted by SignalSplitter)
     );
 
+	 shift_left  #( .W(28) )
+				inst_shifter ( inst_shift_before, inst_shift_after );
+	 
     signals_split SignalSplitter( 
         signals  , RegDst   , ALUsrc , RegWrite , MemRead ,
-        MemWrite , MemToReg , Branch
+        MemWrite , MemToReg , Branch, Jump, size_in
     );
 	
 	// temporary selector for 2:1 mux before reg file
@@ -124,9 +138,29 @@ module processor(
     );
 	
 	// sign extender for last 16 bit of instruction
-	sign_extender Extender( .in(s),
-                            .out(extended_s)
-    );
+	sign_extender Extender(  .in(s),
+                            .out(extended_s) 				);
+							
+	shift_left 	  S_Shifter( .data_in ( extended_s),
+									 .data_out( shifted_s ) 		); 
+		
+		
+	adder 		 adder_jump( shifted_s, pcn, added_address);
+	
+	mux2to1 #(32) jump_address_mux (
+						.B_in( inst_shift_after), // may not work, since ts 28 bits
+						.A_in( added_address   ),
+						.sel_in ( Jump         ),
+						.Y_out  ( jump_address ) // TODO: ask JACK here
+	);
+	
+//	mux2to1 #(32) next_PC (
+//						.B_in( jump_address), 
+//						.A_in( pcn   ),
+//						.sel_in ( JumpOrBranch        ),
+//						.Y_out  ( pc            )
+//	);
+	
 	
 	// mux for ALUSrc to determine if instruction is R type or I type
     // whether 2nd operand is from register or immediate value
@@ -136,6 +170,8 @@ module processor(
                     .sel_in ( ALUsrc     ) ,
                     .Y_out  ( alu_b      )
     );
+	 
+	
 
 	//ALU component of processor
 	alu ALU(
@@ -143,10 +179,11 @@ module processor(
         .A_in       ( rdata1   ) ,
         .B_in       ( alu_b    ) ,
         .O_out      ( ALU_out  ) ,
-        .Branch_out ( branch   ) ,
-        .Jump_out   ( jump     )
+        .Branch_out ( BranchOut   ) ,
+        .Jump_out   ( JumpOut     )
     );
 	
+	assign JumpOrBranch = BranchOut | JumpOut;
 	
 	data_memory #(  .INIT_PROGRAM0("blank.memh"),
 					.INIT_PROGRAM1("blank.memh"),
@@ -160,7 +197,7 @@ module processor(
         .writedata_in    ( rdata2          ),
         .re_in           ( MemRead         ),
         .we_in           ( MemWrite        ),
-        .size_in         ( size            ),
+        .size_in         ( size_in         ),
         .readdata_out    ( output_data     ),
         .serial_in       ( serial_in       ),
         .serial_ready_in ( serial_ready_in ),
