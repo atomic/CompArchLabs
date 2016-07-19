@@ -43,8 +43,11 @@ module processor(
 	
 	wire [31:0]     write_data; // from data memory mux to reg file
 	wire [31:0]    rdata1, rdata2;
-	wire [31:0]    extended_s;
+	wire [31:0]     extended_s;
 	wire [31:0]     shifted_s;
+	wire [31:0]     LUI_wire;
+	wire [31:0] 	 alu_c;
+	
 	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
 	wire [28:0]		 inst_shift_before;
 	wire [28:0]		 inst_shift_after;
@@ -59,12 +62,16 @@ module processor(
 	wire            BranchOut, JumpOut;
 	wire 				 JumpOrBranch;		// 
 	wire 				 r_jump;
+	wire 				 sel_PCN_to_WB;
+	wire 				 jal_ra ;
+	wire 		       lui_rt;
 	wire [31:0]     ALU_out;
 	
 	/////////////////// wires for MEM //////////////////////////
 	//Data Memory Component
 //	wire [1:0]      size = 2'b11;// no longer used in lab4
 	wire [31:0]     output_data;
+	wire [31:0]     DMemory_tmp;
 	
 	// wires for writeback
 	
@@ -110,7 +117,10 @@ module processor(
 		  .rt			( r2		  ) ,		// to determine thr bgez and bglz
         .ALU_Ctrl ( ALU_Ctrl ) ,    // output
         .signals  ( signals  ) ,     // output (further splitted by SignalSplitter)
-		  .r_jump    ( r_jump  )		// NOTE: needed for jar, jalr
+		  .r_jump   ( r_jump  ) ,		// NOTE: needed for jar, jalr
+		  .pcn_to_wb( sel_PCN_to_WB )	, // signal is used for jal, jalr
+		  .jal_ra	( jal_ra  )	,
+		  .lui_rt	( lui_rt  )
     );
 
 	 shift_left  #( .W(28) )
@@ -136,6 +146,7 @@ module processor(
                       .clock         ( clock        ) ,
                       .reset         ( reset        ) ,
                       .regwrite      ( RegWrite     ) ,
+							 .jal_ra        ( jal_ra       ) ,
                       .rr1_in        ( r1           ) ,
                       .rr2_in        ( r2           ) ,
                       .wr_in         ( readWriteOut ) ,
@@ -169,7 +180,16 @@ module processor(
                     .B_in   ( extended_s ) ,
                     .sel_in ( ALUsrc     ) ,
                     .Y_out  ( alu_b      )
-    );
+   );
+	assign LUI_wire = {s, 16'b0};
+	mux2to1 #(32) LuiOrNot_mux  ( 
+                    .A_in   ( alu_b      ) ,
+                    .B_in   ( LUI_wire   ) ,
+                    .sel_in ( lui_rt     ) ,
+                    .Y_out  ( alu_c      )
+   );
+	 
+	  
 	 
 	
 
@@ -177,7 +197,7 @@ module processor(
 	alu ALU(
         .Func_in    ( ALU_Ctrl ) ,
         .A_in       ( rdata1   ) ,
-        .B_in       ( alu_b    ) ,
+        .B_in       ( alu_c    ) ,
         .O_out      ( ALU_out  ) ,
         .Branch_out ( BranchOut   ) ,
         .Jump_out   ( JumpOut     )
@@ -213,9 +233,15 @@ module processor(
                     .B_in   ( output_data ) ,// MemToReg == 1
                     .A_in   ( ALU_out     ) ,// MemToReg == 0
                     .sel_in ( MemToReg    ) ,
-                    .Y_out  ( write_data  )
+                    .Y_out  ( DMemory_tmp )
     );
-				
+	
+	mux2to1 #(32) DataMemOut2_mux ( 
+							.A_in  ( DMemory_tmp ),
+							.B_in  ( pcn         ),
+							.sel_in( sel_PCN_to_WB   ),
+							.Y_out ( write_data  )
+	);
 	
 	// add more wires and stuffs, see slides
 	

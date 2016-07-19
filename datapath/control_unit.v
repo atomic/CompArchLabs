@@ -8,11 +8,18 @@ module control_unit (
 	output reg [5:0] ALU_Ctrl,
    output reg [9:0] signals,
 	// RegDest, ALUsrc, RegWrite, MemRead, MemWrite, MemToReg, Branch, Jump, size_in(2'b)
-	output reg r_jump
+	output reg r_jump, 
+		pcn_to_wb,
+		jal_ra ,
+		lui_rt
 );
 
 always @(*) begin
-	 r_jump = 0;
+	 r_jump = 0;	// ask jack if this is ok
+	 pcn_to_wb = 0;
+	 jal_ra = 0;
+	 lui_rt = 0;
+	 
 	 
     case( opcode )
 	 
@@ -40,10 +47,17 @@ always @(*) begin
 		6'hC:  begin ALU_Ctrl = 6'b100100; signals = 10'b01100000xx; end
 		6'hD:  begin ALU_Ctrl = 6'b100101; signals = 10'b01100000xx; end
 		6'hE:  begin ALU_Ctrl = 6'b100110; signals = 10'b01100000xx; end
-		
+		6'hF:  begin // lui
+						 ALU_Ctrl = 6'b100000; signals = 10'b0111010011; 
+						 lui_rt  = 1;
+		end
 		
 		// J-type
-		6'h2:  begin ALU_Ctrl = 6'b111010; signals = 10'b00000001xx; end
+		6'h2:  begin ALU_Ctrl = 6'b111010; signals = 10'b00000001xx; end 	// j
+		6'h3:  begin ALU_Ctrl = 6'b111010; signals = 10'b00100001xx; 		// jal
+						 jal_ra = 1;
+						 pcn_to_wb = 1;
+		end
 
 		// signals: RegDest, ALUsrc, RegWrite, MemRead, MemWrite, MemToReg, Branch, Jump, size_in(2'b)
 		// Opcode : 0x0, R Type
@@ -59,7 +73,10 @@ always @(*) begin
 				// jr, ASK JACK (not sure man)
 				// ALU_Ctrl is taken from alu.v table
 				6'h8:  begin  ALU_Ctrl = 6'b111011; signals = 10'b00000000xx; r_jump = 1; end // jr
-				6'h9:  begin  ALU_Ctrl = 6'b111011; signals = 10'b00000000xx; r_jump = 1; end // jalr
+				6'h9:  begin  ALU_Ctrl = 6'b111011; signals = 10'b00100000xx; 
+								  r_jump = 1;
+								  pcn_to_wb = 1;	// jalr
+				end 
 				// changed jump = 0 because its R-type
 				
 				
