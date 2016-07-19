@@ -17,16 +17,16 @@ module processor_tb();
    reg reset;
 
    wire [7:0] 	    serial_out;
-   wire 			serial_wren;
+   wire 			    serial_wren;
 
    initial begin
    	clock            <= 1'b0;
    	reset            <= 1'b1;
-   	forever #1 clock <= ~clock;
+   	forever #5 clock <= ~clock;
    end
 
    always begin
-   	#5 reset <= 1'b0;
+   	#200 reset <= 1'b0;
    end
    	
    processor dut(
@@ -41,49 +41,31 @@ module processor_tb();
    );
 
 
+   reg [31:0] instr_count;
+   always@(posedge clock) begin
+      if(dut.reset) begin
+         instr_count <= 0;
+      end
+      else begin
+         instr_count <= instr_count + 1;
+      end
+   end //always_ff
+
+	
    initial begin
 
       wait(dut.RegFile.array[25] == 1);
-
-      if(dut.RegFile.array[2] != 32'h0000_0001)
-         $display("addi:\t\tfailed");
-      else
-         $display("addi:\t\tpassed");
-
-      if(dut.RegFile.array[3] != 32'h0000_0002)
-         $display("add:\t\tfailed");
-      else
-         $display("add:\t\tpassed");
-
-      if(dut.RegFile.array[4] != 32'hFFFF_FFFF)
-         $display("sub:\t\tfailed");
-      else
-         $display("sub:\t\tpassed");
-
-      if(dut.RegFile.array[5] != 32'h0000_00F0)
-         $display("and:\t\tfailed");
-      else
-         $display("and:\t\tpassed");
-
-      if(dut.RegFile.array[6] != 32'h0000_00FF)
-         $display("or:\t\tfailed");
-      else
-         $display("or:\t\tpassed");
-
-      if(dut.RegFile.array[7] != 32'h0000_0FF0)
-         $display("xor:\t\tfailed");
-      else
-         $display("xor:\t\tpassed");
-
-      if(dut.RegFile.array[8] != 32'hFFFF_F000)
-         $display("nor:\t\tfailed");
-      else
-         $display("nor:\t\tpassed");
-
-      if(dut.RegFile.array[9] != 32'h0000_00FF)
-         $display("sw or lw:\tfailed");
-      else
-         $display("sw or lw:\tpassed");
+		
+		if(dut.RegFile.array[16] == 31'h0000600D && dut.RegFile.array[17] == 31'h0000BEEF) begin
+         $display("Processor test bench: passed");
+      end
+      else if(dut.RegFile.array[16] == 31'h0000DEAD && dut.RegFile.array[17] == 31'h0000BEEF) begin 
+         $display("Processor test bench: failed");
+         $display("PC: [%h]", dut.insROM.addr_in);
+         $display("Instruction: [%h]", dut.insROM.data_out);
+      end
+      else 
+         $display("Error: test bench did not behave properly.");
 
       $stop;
 

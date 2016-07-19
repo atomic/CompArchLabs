@@ -205,10 +205,10 @@ module processor(
 	
 	assign JumpOrBranch = BranchOut | JumpOut;
 	
-	data_memory #(  .INIT_PROGRAM0("blank.memh"),
-					.INIT_PROGRAM1("blank.memh"),
-					.INIT_PROGRAM2("blank.memh"),
-					.INIT_PROGRAM3("blank.memh") )
+	data_memory #(  .INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
+					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),
+					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
+					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )
     dMemory(
 
         .clock           ( clock           ),
