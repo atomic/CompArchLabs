@@ -10,9 +10,9 @@ module inst_rom_split(
 	 output [27:0] inst_shift // ASK Jack what instruction needs to times 4
 );
 
-assign r1_out     = ins_in[25:21];
-assign r2_out     = ins_in[20:16];
-assign m1_out     = ins_in[15:11];
+assign r1_out     = ins_in[25:21];	// rs
+assign r2_out     = ins_in[20:16];	// rt
+assign m1_out     = ins_in[15:11];	// rd, probably
 assign s_out      = ins_in[15:0];
 assign opcode_out = ins_in[31:26];
 assign funct_out  = ins_in[5:0];

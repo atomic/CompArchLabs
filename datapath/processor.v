@@ -42,12 +42,13 @@ module processor(
 	wire [4:0]      readWriteOut;
 	
 	wire [31:0]     write_data; // from data memory mux to reg file
-	wire  [31:0]    rdata1, rdata2;
-	wire  [31:0]    extended_s;
+	wire [31:0]    rdata1, rdata2;
+	wire [31:0]    extended_s;
 	wire [31:0]     shifted_s;
 	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
 	wire [28:0]		 inst_shift_before;
 	wire [28:0]		 inst_shift_after;
+	wire [31:0]		 inst_and_pc;
 	wire [31:0]     jump_address;
 	
 	////////////////// wires for execute //////////////////////
@@ -57,6 +58,7 @@ module processor(
 	wire [5:0]      ALU_Ctrl;
 	wire            BranchOut, JumpOut;
 	wire 				 JumpOrBranch;		// 
+	wire 				 r_jump;
 	wire [31:0]     ALU_out;
 	
 	/////////////////// wires for MEM //////////////////////////
@@ -80,8 +82,10 @@ module processor(
 	adder_4 add4toPC( pc, pcn );
 	always @ (negedge clock) begin // update after being sent to
 		if(!reset) begin
-			if( JumpOrBranch ) 
+			if( JumpOrBranch )
 				pc <= jump_address;
+			else if( r_jump )
+				pc <= rdata1;	// NOT SURE, ask jack
 			else
 				pc <= pcn;
 		end
@@ -90,8 +94,8 @@ module processor(
 	// instruction memory to bus split wires(a,b,c,d see
 	inst_rom_split instruction_splitter_mod (
         .ins_in     ( ins    ) ,
-        .r1_out     ( r1     ) ,
-        .r2_out     ( r2     ) ,
+        .r1_out     ( r1     ) ,	// r1 is rs
+        .r2_out     ( r2     ) ,	// r2 is rt
         .m1_out     ( m1     ) ,
         .s_out      ( s      ) ,
         .opcode_out ( opcode ) ,
@@ -103,12 +107,16 @@ module processor(
 	control_unit ControlUnit(
         .opcode   ( opcode   ) ,    // input
         .funct    ( funct    ) ,    // input
+		  .rt			( r2		  ) ,		// to determine thr bgez and bglz
         .ALU_Ctrl ( ALU_Ctrl ) ,    // output
-        .signals  ( signals  )      // output (further splitted by SignalSplitter)
+        .signals  ( signals  ) ,     // output (further splitted by SignalSplitter)
+		  .r_jump    ( r_jump  )		// NOTE: needed for jar, jalr
     );
 
 	 shift_left  #( .W(28) )
 				inst_shifter ( inst_shift_before, inst_shift_after );
+	 
+	 assign inst_and_pc = { pcn[31:28] ,inst_shift_after };
 	 
     signals_split SignalSplitter( 
         signals  , RegDst   , ALUsrc , RegWrite , MemRead ,
@@ -148,19 +156,11 @@ module processor(
 	adder 		 adder_jump( shifted_s, pcn, added_address);
 	
 	mux2to1 #(32) jump_address_mux (
-						.B_in( inst_shift_after), // may not work, since ts 28 bits
+						.B_in( inst_and_pc), // may not work, since ts 28 bits
 						.A_in( added_address   ),
 						.sel_in ( Jump         ),
 						.Y_out  ( jump_address ) // TODO: ask JACK here
 	);
-	
-//	mux2to1 #(32) next_PC (
-//						.B_in( jump_address), 
-//						.A_in( pcn   ),
-//						.sel_in ( JumpOrBranch        ),
-//						.Y_out  ( pc            )
-//	);
-	
 	
 	// mux for ALUSrc to determine if instruction is R type or I type
     // whether 2nd operand is from register or immediate value
