@@ -1,0 +1,330 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/atomic/Documents/Quartus/CompArchLabs/datapath
+vadder
+Z1 !s110 1468988124
+!i10b 1
+!s100 0n>D]kn<7UBQNg`UCIVQY1
+IO[OMkYHK;DGd8A6D^^1N;0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1468986389
+8adder.v
+Fadder.v
+L0 4
+Z3 OV;L;10.4d;61
+r1
+!s85 0
+31
+Z4 !s108 1468988124.000000
+!s107 adder.v|
+!s90 -reportprogress|300|-work|work|adder.v|
+!i113 1
+Z5 o-work work
+vadder_4
+Z6 !s110 1468988123
+!i10b 1
+!s100 M?]<F?i<M0jGLWO1TIAMc3
+IeOJ1M5eo=<j:2W4zBaO_h0
+R2
+R0
+Z7 w1468277591
+8adder_4.v
+Fadder_4.v
+L0 4
+R3
+r1
+!s85 0
+31
+Z8 !s108 1468988123.000000
+!s107 adder_4.v|
+!s90 -reportprogress|300|-work|work|adder_4.v|
+!i113 1
+R5
+valu
+R6
+!i10b 1
+!s100 Qla8d3nPa0<T8hm;JP;Y=2
+I43WhZk6dbkV2emgcV?P>e0
+R2
+R0
+Z9 w1467308693
+8alu.v
+Falu.v
+L0 12
+R3
+r1
+!s85 0
+31
+R8
+!s107 alu.v|
+!s90 -reportprogress|300|-work|work|alu.v|
+!i113 1
+R5
+vasync_memory
+R6
+!i10b 1
+!s100 GKMOD4L6jYi`C0XaF8a?Z0
+I:93ao82:S9]bca@HWSPzB1
+R2
+R0
+R7
+8async_memory.v
+Fasync_memory.v
+L0 22
+R3
+r1
+!s85 0
+31
+R8
+!s107 async_memory.v|
+!s90 -reportprogress|300|-work|work|async_memory.v|
+!i113 1
+R5
+vcontrol_unit
+R6
+!i10b 1
+!s100 Vel`T@mzm23R2ZaGB@XEm2
+IOZhTYLg3T^]@zSh`^USZe0
+R2
+R0
+Z10 w1468983627
+8control_unit.v
+Fcontrol_unit.v
+L0 3
+R3
+r1
+!s85 0
+31
+R8
+!s107 control_unit.v|
+!s90 -reportprogress|300|-work|work|control_unit.v|
+!i113 1
+R5
+vdata_memory
+R6
+!i10b 1
+!s100 fKWFN5F^40mWU`To@C32D1
+IiaJ7KFJX:4lF7i]^DTZ=f0
+R2
+R0
+R9
+8data_memory.v
+Fdata_memory.v
+L0 25
+R3
+r1
+!s85 0
+31
+R8
+!s107 data_memory.v|
+!s90 -reportprogress|300|-work|work|data_memory.v|
+!i113 1
+R5
+vinst_rom
+R6
+!i10b 1
+!s100 >3i1K<z[k3eebWW=Q:h5K3
+IIGVni;]d^8aV[n8nzPzho0
+R2
+R0
+R10
+8inst_rom.v
+Finst_rom.v
+L0 15
+R3
+r1
+!s85 0
+31
+R8
+!s107 inst_rom.v|
+!s90 -reportprogress|300|-work|work|inst_rom.v|
+!i113 1
+R5
+vinst_rom_split
+R1
+!i10b 1
+!s100 >L`_S8VaGKhgj76>8P0EN3
+InNRQ7Eg;Ma[R0WA:n^fzQ3
+R2
+R0
+w1468985386
+8inst_rom_split.v
+Finst_rom_split.v
+L0 4
+R3
+r1
+!s85 0
+31
+R4
+!s107 inst_rom_split.v|
+!s90 -reportprogress|300|-work|work|inst_rom_split.v|
+!i113 1
+R5
+vmux2to1
+R1
+!i10b 1
+!s100 mfTSc[?nmELj?IK6^cm3F0
+I?=D1e;N:G6<5R4OI8`=bk0
+R2
+R0
+w1468282413
+8mux2to1.v
+Fmux2to1.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 mux2to1.v|
+!s90 -reportprogress|300|-work|work|mux2to1.v|
+!i113 1
+R5
+vprocessor
+R6
+!i10b 1
+!s100 YUfU1HIig^fQaO<FE2eQY1
+I>7`6BJzQN3UZNH09J6YzY0
+R2
+R0
+w1468986239
+8processor.v
+Fprocessor.v
+L0 3
+R3
+r1
+!s85 0
+31
+R8
+!s107 processor.v|
+!s90 -reportprogress|300|-work|work|processor.v|
+!i113 1
+R5
+vprocessor_tb
+R6
+!i10b 1
+!s100 mkBzjKY1:OCEGJPJ1RM]z0
+IR^B;b9]KCcKmS[MNz6c1U0
+R2
+R0
+R10
+8processor_tb.v
+Fprocessor_tb.v
+L0 14
+R3
+r1
+!s85 0
+31
+R8
+!s107 processor_tb.v|
+!s90 -reportprogress|300|-work|work|processor_tb.v|
+!i113 1
+R5
+vregfile
+R6
+!i10b 1
+!s100 69PHHSPWNg;@K9nb=cOGJ3
+I_?aiC90W6N1l=>maFKYRQ2
+R2
+R0
+R10
+8regfile.v
+Fregfile.v
+L0 3
+R3
+r1
+!s85 0
+31
+R8
+!s107 regfile.v|
+!s90 -reportprogress|300|-work|work|regfile.v|
+!i113 1
+R5
+vserial_buffer
+R6
+!i10b 1
+!s100 30We<NcRASKe<JAN@Ma?^0
+Ia:zc^Gf@>J>jaCPC3U18V3
+R2
+R0
+R9
+8serial_buf.v
+Fserial_buf.v
+L0 17
+R3
+r1
+!s85 0
+31
+R8
+!s107 serial_buf.v|
+!s90 -reportprogress|300|-work|work|serial_buf.v|
+!i113 1
+R5
+vshift_left
+R1
+!i10b 1
+!s100 GPiaJKh:CM;O7L^EO57Ke3
+IaC9IQjn_`kE^Ol75RRAX:1
+R2
+R0
+R10
+8shift_left.v
+Fshift_left.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 shift_left.v|
+!s90 -reportprogress|300|-work|work|shift_left.v|
+!i113 1
+R5
+vsign_extender
+R6
+!i10b 1
+!s100 FWA4VzUIhAIgLoQHFBf:`0
+IC;4UYCn2A6G3m<?CHhX<d3
+R2
+R0
+R7
+8sign_extender.v
+Fsign_extender.v
+L0 4
+R3
+r1
+!s85 0
+31
+R8
+!s107 sign_extender.v|
+!s90 -reportprogress|300|-work|work|sign_extender.v|
+!i113 1
+R5
+vsignals_split
+R1
+!i10b 1
+!s100 aU[_Gb=31m`cYFdPO5AN^3
+I;`DD<7U]NIV:ZFZUkYWIT1
+R2
+R0
+R10
+8signals_split.v
+Fsignals_split.v
+L0 3
+R3
+r1
+!s85 0
+31
+R8
+!s107 signals_split.v|
+!s90 -reportprogress|300|-work|work|signals_split.v|
+!i113 1
+R5

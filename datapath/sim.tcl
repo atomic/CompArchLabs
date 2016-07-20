@@ -14,16 +14,16 @@ add wave    -noupdate   -group {tb}           -radix hexadecimal    /processor_t
 add wave    -noupdate   -group {processor}    -radix hexadecimal    /processor_tb/dut/*
 
 # instruction memory
-add wave    -noupdate   -group {imem}         -radix hexadecimal    /processor_tb/dut/imem/*
+add wave    -noupdate   -group {inst_rom}         -radix hexadecimal    /processor_tb/dut/insROM/*
 
 # register file
-add wave    -noupdate   -group {rf}           -radix hexadecimal    /processor_tb/dut/rf/*
+add wave    -noupdate   -group {regfile}           -radix hexadecimal    /processor_tb/dut/RegFile/*
 
 # alu
-add wave    -noupdate   -group {alu}          -radix hexadecimal    /processor_tb/dut/alu_1/*
+add wave    -noupdate   -group {alu}          -radix hexadecimal    /processor_tb/dut/ALU/*
 
 # data memory
-add wave    -noupdate   -group {dmem}         -radix hexadecimal    /processor_tb/dut/dmem/*
+add wave    -noupdate   -group {data_memory}         -radix hexadecimal    /processor_tb/dut/dMemory/*
 
 # Use short names
 configure wave -signalnamewidth 1

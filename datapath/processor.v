@@ -49,8 +49,9 @@ module processor(
 	wire [31:0] 	 alu_c;
 	
 	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
-	wire [28:0]		 inst_shift_before;
-	wire [28:0]		 inst_shift_after;
+	wire [27:0]     inst_shift;
+//	wire [27:0]		 inst_shift_before;
+//	wire [28:0]		 inst_shift_after;
 	wire [31:0]		 inst_and_pc;
 	wire [31:0]     jump_address;
 	
@@ -107,8 +108,10 @@ module processor(
         .s_out      ( s      ) ,
         .opcode_out ( opcode ) ,
         .funct_out  ( funct  ) ,
-		  .inst_shift ( inst_shift_before )
+		  .inst_shift ( inst_shift )	// [25:0] inst << 2
     );
+	 assign inst_and_pc = { pcn[31:28] ,inst_shift };
+
 	
 	// control unit - instruction to rest of processor
 	control_unit ControlUnit(
@@ -123,10 +126,10 @@ module processor(
 		  .lui_rt	( lui_rt  )
     );
 
-	 shift_left  #( .W(28) )
-				inst_shifter ( inst_shift_before, inst_shift_after );
+//	 shift_left  #( .W(28) )
+//				inst_shifter ( inst_shift_before, inst_shift_after ); 
+//  TODO: delete this and shift_left module
 	 
-	 assign inst_and_pc = { pcn[31:28] ,inst_shift_after };
 	 
     signals_split SignalSplitter( 
         signals  , RegDst   , ALUsrc , RegWrite , MemRead ,
@@ -167,10 +170,10 @@ module processor(
 	adder 		 adder_jump( shifted_s, pcn, added_address);
 	
 	mux2to1 #(32) jump_address_mux (
-						.B_in( inst_and_pc), // may not work, since ts 28 bits
-						.A_in( added_address   ),
-						.sel_in ( Jump         ),
-						.Y_out  ( jump_address ) // TODO: ask JACK here
+						.A_in   (  added_address   ),
+						.B_in   (  inst_and_pc     ),
+						.sel_in (  Jump            ),
+						.Y_out  (  jump_address 	) // TODO: ask JACK here
 	);
 	
 	// mux for ALUSrc to determine if instruction is R type or I type

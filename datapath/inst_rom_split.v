@@ -16,6 +16,6 @@ assign m1_out     = ins_in[15:11];	// rd, probably
 assign s_out      = ins_in[15:0];
 assign opcode_out = ins_in[31:26];
 assign funct_out  = ins_in[5:0];
-assign inst_shift = ins_in[25:0];
+assign inst_shift = { ins_in[25:0], 2'b00 } ;
 
 endmodule
