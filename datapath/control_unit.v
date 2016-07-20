@@ -24,7 +24,7 @@ always @(*) begin
     case( opcode )
 	 
 		// I-type Instructions
-      6'h23: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010011; end
+		6'h23: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010011; end
       6'h2b: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0011; end
       6'h8:  begin ALU_Ctrl = 6'b100000; signals = 10'b0110000011; end
 		
@@ -35,14 +35,14 @@ always @(*) begin
 		6'h29: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0001; end
 		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end
 		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
-		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000001xx; end
-		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000001xx; end
+		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000010xx; end
+		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000010xx; end
 		6'h1:  begin // bgez, and bltz
 				ALU_Ctrl = ( rt == 5'b00000 ? 6'b111000 : 6'b111001 ); 
-				signals = 10'bx0000001xx;
+				signals = 10'bx0000010xx;
 		end		
-		6'h6:  begin ALU_Ctrl = 6'b111110; signals = 10'bx0000001xx; end
-		6'h7:  begin ALU_Ctrl = 6'b111111; signals = 10'bx0000001xx; end
+		6'h6:  begin ALU_Ctrl = 6'b111110; signals = 10'bx0000010xx; end
+		6'h7:  begin ALU_Ctrl = 6'b111111; signals = 10'bx0000010xx; end
 		6'h9:  begin ALU_Ctrl = 6'b100001; signals = 10'b01100000xx; end
 		6'hC:  begin ALU_Ctrl = 6'b100100; signals = 10'b01100000xx; end
 		6'hD:  begin ALU_Ctrl = 6'b100101; signals = 10'b01100000xx; end

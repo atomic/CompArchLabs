@@ -42,7 +42,7 @@ module processor(
 	wire [4:0]      readWriteOut;
 	
 	wire [31:0]     write_data; // from data memory mux to reg file
-	wire [31:0]    rdata1, rdata2;
+	wire [31:0]     rdata1, rdata2;
 	wire [31:0]     extended_s;
 	wire [31:0]     shifted_s;
 	wire [31:0]     LUI_wire;
@@ -82,13 +82,13 @@ module processor(
 //	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
 	inst_rom #(
 				.ADDR_WIDTH(10),
-				.INIT_PROGRAM("lab3-test.inst_rom.memh")
-				)
+				.INIT_PROGRAM("processor_tb.inst_rom.memh") )
+//				.INIT_PROGRAM("nbhelloworld.inst_rom.memh") )
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
-	always @ (negedge clock) begin // update after being sent to
+	always @ (posedge clock) begin // update after being sent to
 		if(!reset) begin
 			if( JumpOrBranch )
 				pc <= jump_address;
@@ -211,7 +211,11 @@ module processor(
 	data_memory #(  .INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
 					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),
 					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
-					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )
+					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )	
+//	data_memory #(  .INIT_PROGRAM0( "nbhelloworld.data_ram0.memh" ),
+//					.INIT_PROGRAM1    ( "nbhelloworld.data_ram1.memh" ),
+//					.INIT_PROGRAM2    ( "nbhelloworld.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "nbhelloworld.data_ram3.memh" ) )
     dMemory(
 
         .clock           ( clock           ),

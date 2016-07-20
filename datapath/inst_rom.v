@@ -24,8 +24,8 @@ module inst_rom (
 	reg [31:0] rom [0:2**ADDR_WIDTH-1];
 	reg [31:0] out;
 	
-	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes
-//	assign data_out = out; //flip bytes\
+//	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes
+	assign data_out = out; //flip bytes (Jack's test bench)
 
 	initial
 	begin
