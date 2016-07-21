@@ -20,8 +20,8 @@ module processor(
 	// wires for instruction fetch	
 	// only put 32 bit pc
 	// no need bus splitter module
-	reg [31:0]      pc = 32'h0040_0000;
-//	reg [31:0]      pc = 32'h003F_FFFC; // for 
+//	reg [31:0]      pc = 32'h0040_0000;
+	reg [31:0]      pc = 32'h003F_FFFC; // for 
 	
 	wire [31:0]     pcn;    // value of PC that is to be incremented or updated
 
@@ -88,12 +88,12 @@ module processor(
 				
 	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
-	always @ (posedge clock) begin // update after being sent to
+	always @ (negedge clock) begin // update after being sent to
 		if(!reset) begin
-			if( JumpOrBranch )
-				pc <= jump_address;
-			else if( r_jump )
+			if( r_jump )
 				pc <= rdata1;	// NOT SURE, ask jack
+			else if( JumpOrBranch )
+				pc <= jump_address;
 			else
 				pc <= pcn;
 		end

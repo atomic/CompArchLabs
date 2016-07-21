@@ -16,7 +16,7 @@ __start:
    sll      $zero, $zero, 0                  # NOP
 
 CHECK_ANSWER:
-   sub      $t0, $a0, $a1
+   sub      $t0, $a0, $a1                 # 0x00400008
    beq      $zero, $t0, PASS
    sll      $zero, $zero, 0
    add      $t0, $zero, $a0               # store actual value to $t0
@@ -42,14 +42,14 @@ MAIN:
    addi     $a1, $zero, 10
    jal      CHECK_ANSWER         ## test: ADDI
    sll      $zero, $zero, 0
-   addi     $s3, $s3, 1                
+   addi     $s3, $s3, 1          # Checkpoint : WORKING        
 
    ## ADDIU 
    addiu    $a0, $zero, -10
    addiu    $a1, $zero, -10
    jal      CHECK_ANSWER         ## test: ADDIU
    sll      $zero, $zero, 0
-   addi     $s3, $s3, 1
+   addi     $s3, $s3, 1          # Checkpoint 2 : WORKING HERE        
 
    ## ADD
    addiu    $t0, $zero, 5
