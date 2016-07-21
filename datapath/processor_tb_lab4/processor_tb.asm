@@ -130,6 +130,7 @@ SKIP_SLL:
    jal      CHECK_ANSWER         ## test : ORI
    sll      $zero, $zero, 0
    addi     $s3, $s3, 1
+                                 ## Checkpoint 3 : Registers and addresses match
 
    ## NOR
    #     skip this if you do not have sll implemented
@@ -279,7 +280,7 @@ JALR_FORWARD:
    jalr     JALR_BACK
    sll      $zero, $zero, 0
    addi     $s3, $s3, 1
-
+                                       # Checkpoint 4 : All looks good
 
 ###############################################################################
 ###############################################################################
@@ -307,18 +308,17 @@ JALR_FORWARD:
    add      $s1, $s1, $s1    #0x8000000
    add      $s1, $s1, $s1    #0x10000000
 
-
    addi     $t0, $0,0x48      
    sw       $t0, 0($s1)       # 'H' store word
    addi     $t1, $0,0x65      
    sw       $t1, 4($s1)       # 'e' store word
-   addi     $t2, $0,0x6C      
+   addi     $t2, $0,0x6C                              # Checkpoint, all good
    sw       $t2, 8($s1)       # 'l' store word
    sw       $t2, 12($s1)      # 'l' store word
    addi     $t3, $0,0x6F      
-   sw       $t3, 16($s1)      # 'o'store word
+   sw       $t3, 16($s1)      # 'o'store word 
 
-   lw       $t4, 0($s1)       # 'e' load word
+   lw       $t4, 0($s1)       # 'e' load word         # ERROR: Here
    sll      $zero, $zero, 0
    bne      $t4, $t0, FAIL
    sll      $zero, $zero, 0
