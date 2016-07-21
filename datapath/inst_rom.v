@@ -16,15 +16,15 @@ module inst_rom (
 	input	clock,
 	input reset,
 	input [31:0] addr_in,
-	output reg [31:0] data_out
+	output [31:0] data_out
 );
 	parameter ADDR_WIDTH=8;
 	parameter INIT_PROGRAM="";
 
 	reg [31:0] rom [0:2**ADDR_WIDTH-1];
-//	reg [31:0] out;
+	reg [31:0] out;
 	
-//	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes
+	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes
 //	assign data_out = out; //flip bytes (Jack's test bench)
 
 	initial
@@ -34,9 +34,9 @@ module inst_rom (
 	
 	always @(negedge clock) begin
 		if (reset) begin
-			data_out <= 32'h00000000;
+			out <= 32'h00000000;
 		end else begin
-			data_out <= rom[addr_in[ADDR_WIDTH+1:2]];
+			out <= rom[addr_in[ADDR_WIDTH+1:2]];
 		end
 	end
 

@@ -6,15 +6,14 @@ module shift_left_amt #(parameter W = 32) (
 	input      [5:0]   opcode,
 	input      [5:0]   funct,
 	input 	  [4:0]   shamt,
-	output reg [W-1:0] data_out
+	output  reg[W-1:0] data_out
 );
 
-	always @(*) begin
-	
-	if( opcode == 6'h0 && funct == 6'h0)
-		data_out = data_in << shamt;
-	else
-		data_out = data_in;
-	end
+//	always @(*) begin
+//	if( opcode == 6'h0 && funct == 6'h0 )
+//		data_out = data_in << 16;
+//	else
+//		data_out = data_in;
+//	end
 	
 endmodule
