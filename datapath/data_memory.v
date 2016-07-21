@@ -31,6 +31,8 @@ module data_memory(
 	input					re_in,
 	input					we_in,
 	input		[1:0]		size_in,
+	input 				sign,				// new addition to allow sign extends on writeback
+	
 	output	reg [31:0]	readdata_out,
 	
 	//serial port connection that need to be routed out of the process
@@ -57,7 +59,17 @@ parameter INIT_PROGRAM3 = "";
 	always @(*) begin
 		case(addr_in[31:16])
 			16'h1000:
-				readdata_out <= data_readdata_data;
+				case( size_in )
+					2'b00: // byte
+						if(sign == 1)  readdata_out <= { {24{data_readdata_data[7]}}, data_readdata_data[7:0] }; 
+						else			   readdata_out <= { 24'h0                    , data_readdata_data[7:0] }; 	// TODO; still need to take care of load half
+					2'b01: // half
+						if(sign == 1)  readdata_out <= { {16{data_readdata_data[15]}}, data_readdata_data[15:0] }; 
+						else			   readdata_out <= { 16'h0                     , data_readdata_data[15:0] }; 	// TODO; still need to take care of load half
+					default: // word
+						readdata_out <= data_readdata_data; // previously is this
+				endcase
+
 			16'h7fff:
 				readdata_out <= data_readdata_stack;
 			16'hffff:

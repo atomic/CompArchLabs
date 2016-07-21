@@ -64,3 +64,4 @@ timing/
 testbench/
 *_sim/
 *.wlf
+work/

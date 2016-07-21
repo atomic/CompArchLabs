@@ -11,7 +11,8 @@ module control_unit (
 	output reg r_jump, 
 		pcn_to_wb,
 		jal_ra ,
-		lui_rt
+		lui_rt ,
+		load_sign
 );
 
 always @(*) begin
@@ -19,6 +20,7 @@ always @(*) begin
 	 pcn_to_wb = 0;
 	 jal_ra = 0;
 	 lui_rt = 0;
+	 load_sign = 1; // by default, load with signed
 	 
 	 
     case( opcode )
@@ -33,8 +35,8 @@ always @(*) begin
 		6'h21: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
 		6'h28: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0000; end
 		6'h29: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0001; end
-		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end
-		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
+		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; load_sign = 0; end
+		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; load_sign = 0; end
 		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000010xx; end
 		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000010xx; end
 		6'h1:  begin // bgez, and bltz

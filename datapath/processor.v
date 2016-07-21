@@ -73,7 +73,7 @@ module processor(
 //	wire [1:0]      size = 2'b11;// no longer used in lab4
 	wire [31:0]     output_data;
 	wire [31:0]     DMemory_tmp;
-	
+	wire 				 load_sign; 	// detech whether to load with sign or unsigned
 	// wires for writeback
 	
 
@@ -123,12 +123,9 @@ module processor(
 		  .r_jump   ( r_jump  ) ,		// NOTE: needed for jar, jalr
 		  .pcn_to_wb( sel_PCN_to_WB )	, // signal is used for jal, jalr
 		  .jal_ra	( jal_ra  )	,
-		  .lui_rt	( lui_rt  )
+		  .lui_rt	( lui_rt  ) ,
+		  .load_sign( load_sign )
     );
-
-//	 shift_left  #( .W(28) )
-//				inst_shifter ( inst_shift_before, inst_shift_after ); 
-//  TODO: delete this and shift_left module
 	 
 	 
     signals_split SignalSplitter( 
@@ -162,7 +159,8 @@ module processor(
 	
 	// sign extender for last 16 bit of instruction
 	sign_extender Extender(  .in(s),
-                            .out(extended_s) 				);
+                            .out(extended_s),
+									 .op(opcode)						);
 							
 	shift_left 	  S_Shifter( .data_in ( extended_s),
 									 .data_out( shifted_s ) 		); 
@@ -226,6 +224,7 @@ module processor(
         .re_in           ( MemRead         ),
         .we_in           ( MemWrite        ),
         .size_in         ( size_in         ),
+		  .sign				 ( load_sign		 ),
         .readdata_out    ( output_data     ),
         .serial_in       ( serial_in       ),
         .serial_ready_in ( serial_ready_in ),

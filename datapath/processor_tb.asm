@@ -5,7 +5,7 @@
 #  Change Log:
 #     6/27/2016 - Chao (Jack) Li - Initial Implementation
 #
- 
+
    .data
 
    .globl   __start
@@ -37,14 +37,14 @@ JUMP_FORWARD:
 
 MAIN:
 
-   ## ADDI 
+   ## ADDI
    addi     $a0, $zero, 10
    addi     $a1, $zero, 10
    jal      CHECK_ANSWER         ## test: ADDI
    sll      $zero, $zero, 0
-   addi     $s3, $s3, 1                
+   addi     $s3, $s3, 1
 
-   ## ADDIU 
+   ## ADDIU
    addiu    $a0, $zero, -10
    addiu    $a1, $zero, -10
    jal      CHECK_ANSWER         ## test: ADDIU
@@ -55,7 +55,7 @@ MAIN:
    addiu    $t0, $zero, 5
    addiu    $t1, $zero, 6
    add      $a0, $t0, $t1
-   addiu    $a1, $zero, 11       
+   addiu    $a1, $zero, 11
    jal      CHECK_ANSWER         ## test : ADD
    sll      $zero, $zero, 0
    addi     $s3, $s3, 1
@@ -72,7 +72,7 @@ MAIN:
    jal      CHECK_ANSWER          ## test : SUB
    sll      $zero, $zero, 0
    addiu    $s3, $s3, 1
-   
+
    ## SUBU
    addi     $t0, $zero, -10
    addi     $t1, $zero, -10
@@ -92,8 +92,8 @@ MAIN:
    sub      $a0, $t1, $t2
    addi     $a1, $zero, 0
    jal      CHECK_ANSWER         ## test : SLL
-   sll      $zero, $zero, 0 
-   addiu    $s3, $s3, 1  
+   sll      $zero, $zero, 0
+   addiu    $s3, $s3, 1
 
 SKIP_SLL:
 
@@ -122,7 +122,7 @@ SKIP_SLL:
    jal      CHECK_ANSWER         ## test : OR
    sll      $zero, $zero, 0
    addi     $s3, $s3, 1
-   
+
    ## ORI
    addiu    $t0, $zero, 0x00FF
    ori      $a0, $t0, 0x0F0F
@@ -171,10 +171,10 @@ SKIP_NOR:
    bne      $t0, $zero, BNE_PASS    ## test : bne
    sll      $zero, $zero, 0
    j        FAIL
-   sll      $zero, $zero, 0 
+   sll      $zero, $zero, 0
 BNE_PASS:
    addi     $s3, $s3, 1
-   
+
    addi     $t0, $zero, -1
    bltz     $t0, BLTZ_PASS          ## test : bltz
    sll      $zero, $zero, 0
@@ -200,11 +200,11 @@ BGEZ_PASS1:
    addi     $t0, $zero, 1
    bgez     $t0, BGEZ_PASS2         ## test  part 2: bgez
    sll      $zero, $zero, 0
-   j        FAIL   
+   j        FAIL
    sll      $zero, $zero, 0
 BGEZ_PASS2:
    addi     $s3, $s3, 1
-   
+
    addi     $t0, $zero, 0
    blez     $t0, BLEZ_PASS1         ## test  part 1: blez
    sll      $zero, $zero, 0
@@ -308,14 +308,14 @@ JALR_FORWARD:
    add      $s1, $s1, $s1    #0x10000000
 
 
-   addi     $t0, $0,0x48      
+   addi     $t0, $0,0x48
    sw       $t0, 0($s1)       # 'H' store word
-   addi     $t1, $0,0x65      
+   addi     $t1, $0,0x65
    sw       $t1, 4($s1)       # 'e' store word
-   addi     $t2, $0,0x6C      
+   addi     $t2, $0,0x6C
    sw       $t2, 8($s1)       # 'l' store word
    sw       $t2, 12($s1)      # 'l' store word
-   addi     $t3, $0,0x6F      
+   addi     $t3, $0,0x6F
    sw       $t3, 16($s1)      # 'o'store word
 
    lw       $t4, 0($s1)       # 'e' load word
@@ -369,7 +369,7 @@ JALR_FORWARD:
    ori      $a0, $zero, 0x0037
    bne      $t0, $a0, FAIL
    sll      $zero, $zero, 0
-   lbu      $t1, 4($s1) 
+   lbu      $t1, 4($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0x00FE
    bne      $t1, $a0, FAIL
@@ -377,15 +377,15 @@ JALR_FORWARD:
    lbu      $t2, 8($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0x00AD
-   bne      $t2, $a0, FAIL 
+   bne      $t2, $a0, FAIL
    sll      $zero, $zero, 0
-   lbu      $t3, 12($s1) 
+   lbu      $t3, 12($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0x000D
    bne      $t3, $a0, FAIL
    sll      $zero, $zero, 0
 
-   addi     $s3, $s3, 1
+   addi     $s3, $s3, 1                # Fixed this(master branch)
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -395,21 +395,21 @@ JALR_FORWARD:
    ori      $a0, $zero, 0x0037
    bne      $t0, $a0, FAIL
    sll      $zero, $zero, 0
-   lb       $t1, 4($s1) 
+   lb       $t1, 4($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0xFFFF
-   sll      $a0, $a0, 16
-   ori      $a0, $a0, 0xFFFE
-   bne      $t1, $a0, FAIL
+   sll      $a0, $a0, 16              # shift fails here, why?
+   ori      $a0, $a0, 0xFFFE         # ori fails here
+   bne      $t1, $a0, FAIL             # t1 has correct value, a0 is not
    sll      $zero, $zero, 0
    lb       $t2, 8($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0xFFFF
    sll      $a0, $a0, 16
    ori      $a0, $a0, 0xFFAD
-   bne      $t2, $a0, FAIL 
+   bne      $t2, $a0, FAIL
    sll      $zero, $zero, 0
-   lb       $t3, 12($s1) 
+   lb       $t3, 12($s1)
    sll      $zero, $zero, 0
    ori     $a0, $zero, 0x000D
    bne      $t3, $a0, FAIL
@@ -434,7 +434,7 @@ JALR_FORWARD:
    ori     $a0, $zero, 0x1337
    bne      $t0, $a0, FAIL
    sll      $zero, $zero, 0
-   lhu      $t1, 4($s1) 
+   lhu      $t1, 4($s1)
    sll      $zero, $zero, 0
    ori     $a0, $zero, 0xCAFE
    bne      $t1, $a0, FAIL
@@ -442,9 +442,9 @@ JALR_FORWARD:
    lhu      $t2, 8($s1)
    sll      $zero, $zero, 0
    ori     $a0, $zero, 0x0BAD
-   bne      $t2, $a0, FAIL 
+   bne      $t2, $a0, FAIL
    sll      $zero, $zero, 0
-   lhu      $t3, 12($s1) 
+   lhu      $t3, 12($s1)
    sll      $zero, $zero, 0
    ori     $a0, $zero, 0xF00D
    bne      $t3, $a0, FAIL
@@ -460,7 +460,7 @@ JALR_FORWARD:
    ori      $a0, $zero, 0x1337
    bne      $t0, $a0, FAIL
    sll      $zero, $zero, 0
-   lh       $t1, 4($s1) 
+   lh       $t1, 4($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0xFFFF
    sll      $a0, $a0, 16
@@ -470,9 +470,9 @@ JALR_FORWARD:
    lh       $t2, 8($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0x0BAD
-   bne      $t2, $a0, FAIL 
+   bne      $t2, $a0, FAIL
    sll      $zero, $zero, 0
-   lh       $t3, 12($s1) 
+   lh       $t3, 12($s1)
    sll      $zero, $zero, 0
    ori      $a0, $zero, 0xFFFF
    sll      $a0, $a0, 16
@@ -501,5 +501,5 @@ ALL_PASSED:
    ori     $s0, $zero, 0x600D
    ori     $s1, $zero, 0xBEEF
    addi    $25, $zero, 1              ## indicate end of test bench
-   
-DONE:   
+
+DONE:
