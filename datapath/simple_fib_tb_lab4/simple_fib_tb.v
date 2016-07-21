@@ -43,17 +43,17 @@ module simple_fib_tb();
 
    initial begin
 
-      wait(dut.rf.rf[25] == 1);
+      wait(dut.RegFile.array[25] == 1);
 
-      if(dut.rf.rf[16] == 31'h0000600D && dut.rf.rf[17] == 31'h0000BEEF) begin
+      if(dut.RegFile.array[16] == 31'h0000600D && dut.RegFile.array[17] == 31'h0000BEEF) begin
          $display("Simple Fibonacci test bench: passed");
-         $display("\tExpected result: %d", dut.rf.rf[8]);
-         $display("\tActual result:\t %d", dut.rf.rf[9]);
+         $display("\tExpected result: %d", dut.RegFile.array[8]);
+         $display("\tActual result:\t %d", dut.RegFile.array[9]);
       end
-      else if(dut.rf.rf[16] == 31'h0000DEAD && dut.rf.rf[17] == 31'h0000BEEF) begin 
+      else if(dut.RegFile.array[16] == 31'h0000DEAD && dut.RegFile.array[17] == 31'h0000BEEF) begin 
          $display("Simple Fibonacci test bench: failed");
-         $display("\tExpected result: %d", dut.rf.rf[8]);
-         $display("\tActual result:\t %d", dut.rf.rf[9]);
+         $display("\tExpected result: %d", dut.RegFile.array[8]);
+         $display("\tActual result:\t %d", dut.RegFile.array[9]);
       end
       else 
          $display("Error: test bench did not behave properly.");
