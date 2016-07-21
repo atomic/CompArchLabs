@@ -20,8 +20,8 @@ module processor(
 	// wires for instruction fetch	
 	// only put 32 bit pc
 	// no need bus splitter module
-//	reg [31:0]      pc = 32'h0040_0000;
-	reg [31:0]      pc = 32'h003F_FFFC; // for 
+	reg [31:0]      pc = 32'h0040_0000;
+//	reg [31:0]      pc = 32'h003F_FFF9; // for 
 	
 	wire [31:0]     pcn;    // value of PC that is to be incremented or updated
 
@@ -88,7 +88,8 @@ module processor(
 				
 	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
-	always @ (negedge clock) begin
+	//always @ (negedge clock) begin
+	always @ (posedge clock) begin
 		if(!reset) begin
 			if( r_jump )
 				pc <= rdata1;	// NOT SURE, ask jack
@@ -162,7 +163,8 @@ module processor(
 	
 	// sign extender for last 16 bit of instruction
 	sign_extender Extender(  .in(s),
-                            .out(extended_s) 				);
+                            .out(extended_s),
+									 .op(opcode)             );
 							
 	shift_left 	  S_Shifter( .data_in ( extended_s),
 									 .data_out( shifted_s ) 		); 

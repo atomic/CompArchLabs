@@ -33,7 +33,7 @@ always @(*) begin
 		6'h21: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
 		6'h28: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0000; end
 		6'h29: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0001; end
-		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end
+		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end	// lbu
 		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
 		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000010xx; end
 		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000010xx; end

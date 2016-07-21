@@ -20,8 +20,8 @@ module regfile#(parameter W = 32)(
 	
 	// Read --> ALU stuff -> Write (In 1 clock cycle)
 	integer i;
-//	always @(negedge clock) begin
-	always @(posedge clock) begin
+//	always @(posedge clock) begin
+	always @(negedge clock) begin
 		if( reset ) begin
 			for( i = 0; i < 32; i = i + 1) begin
 				array[i] <= 0;
@@ -31,15 +31,16 @@ module regfile#(parameter W = 32)(
 			if (regwrite && jal_ra) begin
 				array[31]    <= write_data_in;
 			end
-			else if ( regwrite && memread && wr_in != 0 ) begin
-				array[wr_in] <= write_data_in;
-			end
 			else if	(regwrite && wr_in != 0) begin
 				array[wr_in] <= write_data_in;
 			end
 		end
 	end
-
+	always @(posedge clock) begin
+		if ( regwrite && memread && wr_in != 0 ) begin
+			array[wr_in] <= write_data_in;
+		end
+	end
 	
 	// asyncrounous
 	always @(*) begin
