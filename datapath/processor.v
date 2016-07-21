@@ -37,7 +37,7 @@ module processor(
 	wire [1:0] 		 size_in;
 	
 	// Wires for Register FIle
-	wire [4:0]      r1,r2,m1;
+	wire [4:0]      r1,r2,m1, shamt;
 	wire [15:0]     s;
 	wire [4:0]      readWriteOut;
 	
@@ -50,8 +50,7 @@ module processor(
 	
 	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
 	wire [27:0]     inst_shift;
-//	wire [27:0]		 inst_shift_before;
-//	wire [28:0]		 inst_shift_after;
+
 	wire [31:0]		 inst_and_pc;
 	wire [31:0]     jump_address;
 	
@@ -73,6 +72,7 @@ module processor(
 //	wire [1:0]      size = 2'b11;// no longer used in lab4
 	wire [31:0]     output_data;
 	wire [31:0]     DMemory_tmp;
+	wire [31:0]     DMemory_tmp2;
 	wire 				 load_sign; 	// detech whether to load with sign or unsigned
 	// wires for writeback
 	
@@ -105,6 +105,7 @@ module processor(
         .r1_out     ( r1     ) ,	// r1 is rs
         .r2_out     ( r2     ) ,	// r2 is rt
         .m1_out     ( m1     ) ,
+		  .shamt      ( shamt  ) , // shift amount
         .s_out      ( s      ) ,
         .opcode_out ( opcode ) ,
         .funct_out  ( funct  ) ,
@@ -247,8 +248,10 @@ module processor(
 							.A_in  ( DMemory_tmp ),
 							.B_in  ( pcn         ),
 							.sel_in( sel_PCN_to_WB   ),
-							.Y_out ( write_data  )
+							.Y_out ( DMemory_tmp2  )
 	);
+	
+	assign write_data = (opcode == 5'h0 && funct == 5'h0 ? rdata2 << shamt : DMemory_tmp2);
 	
 	// add more wires and stuffs, see slides
 	

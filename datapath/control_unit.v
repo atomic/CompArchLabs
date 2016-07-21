@@ -89,7 +89,8 @@ always @(*) begin
 				6'h2A: begin ALU_Ctrl = 6'b101000; signals = 10'b10100000xx; end
 				6'h2B: begin ALU_Ctrl = 6'b101001; signals = 10'b10100000xx; end
 				
-				6'h0:  begin ALU_Ctrl = 6'b100000; signals = 10'b00000000xx; end // nop
+//				6'h0:  begin ALU_Ctrl = 6'b100000; signals = 10'b00000000xx; end // sll
+				6'h0:  begin ALU_Ctrl = 6'b100000; signals = 10'b10100000xx; end // sll, change the signals to allow shift left to function
           endcase
       end
     endcase
