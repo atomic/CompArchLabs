@@ -289,7 +289,7 @@ JALR_FORWARD:
    addiu    $t0, $zero, 0x4000
    sub      $s0, $0, $t0
    sub      $s0, $s0, $t0    # $s0 should now contain 0xffffc000
-   sub      $s0, $s0, $t0    # $s0 should now contain 0xffff8000
+   sub      $s0, $s0, $t0    # $s0 should now contain 0xffff8000 # Note: $16 ?!
    sub      $s0, $s0, $t0    # $s0 should now contain 0xffff0000
 
    addi     $s1, $0,0x4000
@@ -340,7 +340,7 @@ JALR_FORWARD:
    sll      $zero, $zero, 0
 
 
-   addi     $s3, $s3, 2
+   addi     $s3, $s3, 2                          # Note: Passess until here
 ###############################################################################
 ###############################################################################
 ###############################################################################

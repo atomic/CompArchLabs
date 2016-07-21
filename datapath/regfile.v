@@ -7,6 +7,7 @@ module regfile#(parameter W = 32)(
 	input				 jal_ra,
 	input [4:0]     rr1_in, rr2_in, wr_in,	// 5 bit, 32 slot of register
 	input [W-1:0]    write_data_in,
+	input 			 memread, // this signal is to write back on posedge
 	output reg [31:0] rdata1_out, rdata2_out
 );
 	
@@ -33,6 +34,11 @@ module regfile#(parameter W = 32)(
 			else if	(regwrite && wr_in != 0) begin
 				array[wr_in] <= write_data_in;
 			end
+		end
+	end
+	always @(posedge clock) begin
+		if ( regwrite && memread && wr_in != 0 ) begin
+			array[wr_in] <= write_data_in;
 		end
 	end
 	

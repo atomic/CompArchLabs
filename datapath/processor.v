@@ -88,7 +88,7 @@ module processor(
 				
 	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
-	always @ (negedge clock) begin // update after being sent to
+	always @ (negedge clock) begin
 		if(!reset) begin
 			if( r_jump )
 				pc <= rdata1;	// NOT SURE, ask jack
@@ -154,6 +154,7 @@ module processor(
                       .rr2_in        ( r2           ) ,
                       .wr_in         ( readWriteOut ) ,
                       .write_data_in ( write_data   ) ,
+							 .memread       ( MemRead      ) , // delete this if it doesnt fix the load operations (write should happen on posedge)
 
                       .rdata1_out    ( rdata1       ) ,
                       .rdata2_out    ( rdata2       )
