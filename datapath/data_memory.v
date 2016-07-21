@@ -62,10 +62,10 @@ parameter INIT_PROGRAM3 = "";
 				case( size_in )
 					2'b00: // byte
 						if(sign == 1)  readdata_out <= { {24{data_readdata_data[7]}}, data_readdata_data[7:0] }; 
-						else			   readdata_out <= { 24'h0                    , data_readdata_data[7:0] }; 	// TODO; still need to take care of load half
+						else			   readdata_out <= { 24'h0                      , data_readdata_data[7:0] }; 
 					2'b01: // half
 						if(sign == 1)  readdata_out <= { {16{data_readdata_data[15]}}, data_readdata_data[15:0] }; 
-						else			   readdata_out <= { 16'h0                     , data_readdata_data[15:0] }; 	// TODO; still need to take care of load half
+						else			   readdata_out <= { 16'h0                       , data_readdata_data[15:0] }; 
 					default: // word
 						readdata_out <= data_readdata_data; // previously is this
 				endcase

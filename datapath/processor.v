@@ -84,6 +84,7 @@ module processor(
 				.ADDR_WIDTH(10),
 				.INIT_PROGRAM("processor_tb.inst_rom.memh") )
 //				.INIT_PROGRAM("nbhelloworld.inst_rom.memh") )
+//				.INIT_PROGRAM("simple_fib_tb_lab4/simple_fib_tb.inst_rom.memh") )
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder2
@@ -208,7 +209,12 @@ module processor(
 	
 	assign JumpOrBranch = BranchOut | JumpOut;
 	
-	data_memory #(  .INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
+	data_memory #(  
+//					.INIT_PROGRAM0    ( "simple_fib_tb_lab4/simple_fib_tb.data_ram0.memh" ),
+//					.INIT_PROGRAM1    ( "simple_fib_tb_lab4/simple_fib_tb.data_ram1.memh" ),
+//					.INIT_PROGRAM2    ( "simple_fib_tb_lab4/simple_fib_tb.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "simple_fib_tb_lab4/simple_fib_tb.data_ram3.memh" ) )	
+					.INIT_PROGRAM0    ( "processor_tb.data_ram0.memh" ),
 					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),
 					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
 					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )	
