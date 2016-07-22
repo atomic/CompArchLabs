@@ -26,29 +26,29 @@ always @(*) begin
     case( opcode )
 	 
 		// I-type Instructions
-		6'h23: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010011; end
-      6'h2b: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0011; end
-      6'h8:  begin ALU_Ctrl = 6'b100000; signals = 10'b0110000011; end
+		6'h23: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010011; end	//lw
+      6'h2b: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0011; end	//sw
+      6'h8:  begin ALU_Ctrl = 6'b100000; signals = 10'b0110000011; end	//addi
 		
 		// with branch(lab 4)
-		6'h20: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end
-		6'h21: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end
-		6'h28: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0000; end
-		6'h29: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0001; end
+		6'h20: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; end	//lb
+		6'h21: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; end	//lh
+		6'h28: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0000; end	//sb
+		6'h29: begin ALU_Ctrl = 6'b100000; signals = 10'bx1001x0001; end	//sh
 		6'h24: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010000; load_sign = 0; end // lbu
-		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; load_sign = 0; end
-		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000010xx; end
-		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000010xx; end
+		6'h25: begin ALU_Ctrl = 6'b100000; signals = 10'b0111010001; load_sign = 0; end	//lhu
+		6'h4:  begin ALU_Ctrl = 6'b111100; signals = 10'bx0000010xx; end	//beq
+		6'h5:  begin ALU_Ctrl = 6'b111101; signals = 10'bx0000010xx; end	//bne
 		6'h1:  begin // bgez, and bltz
 				ALU_Ctrl = ( rt == 5'b00000 ? 6'b111000 : 6'b111001 ); 
 				signals = 10'bx0000010xx;
 		end		
-		6'h6:  begin ALU_Ctrl = 6'b111110; signals = 10'bx0000010xx; end
-		6'h7:  begin ALU_Ctrl = 6'b111111; signals = 10'bx0000010xx; end
-		6'h9:  begin ALU_Ctrl = 6'b100001; signals = 10'b01100000xx; end
-		6'hC:  begin ALU_Ctrl = 6'b100100; signals = 10'b01100000xx; end
-		6'hD:  begin ALU_Ctrl = 6'b100101; signals = 10'b01100000xx; end
-		6'hE:  begin ALU_Ctrl = 6'b100110; signals = 10'b01100000xx; end
+		6'h6:  begin ALU_Ctrl = 6'b111110; signals = 10'bx0000010xx; end	//blez
+		6'h7:  begin ALU_Ctrl = 6'b111111; signals = 10'bx0000010xx; end	//bgtz
+		6'h9:  begin ALU_Ctrl = 6'b100001; signals = 10'b01100000xx; end	//addiu
+		6'hC:  begin ALU_Ctrl = 6'b100100; signals = 10'b01100000xx; end	//andi
+		6'hD:  begin ALU_Ctrl = 6'b100101; signals = 10'b01100000xx; end	//ori
+		6'hE:  begin ALU_Ctrl = 6'b100110; signals = 10'b01100000xx; end	//xori
 		6'hF:  begin // lui
 						 ALU_Ctrl = 6'b100000; signals = 10'b0111010011; 
 						 lui_rt  = 1;
@@ -65,12 +65,12 @@ always @(*) begin
 		// Opcode : 0x0, R Type
       default: begin
           case( funct )
-            6'h20: begin ALU_Ctrl = 6'b100000; signals = 10'b1010000011; end
-            6'h22: begin ALU_Ctrl = 6'b100010; signals = 10'b1010000011; end
-            6'h24: begin ALU_Ctrl = 6'b100100; signals = 10'b1010000011; end
-            6'h25: begin ALU_Ctrl = 6'b100101; signals = 10'b1010000011; end
-            6'h27: begin ALU_Ctrl = 6'b100111; signals = 10'b1010000011; end
-            6'h26: begin ALU_Ctrl = 6'b100110; signals = 10'b1010000011; end
+            6'h20: begin ALU_Ctrl = 6'b100000; signals = 10'b1010000011; end	//add
+            6'h22: begin ALU_Ctrl = 6'b100010; signals = 10'b1010000011; end	//sub
+            6'h24: begin ALU_Ctrl = 6'b100100; signals = 10'b1010000011; end	//and
+            6'h25: begin ALU_Ctrl = 6'b100101; signals = 10'b1010000011; end	//or
+            6'h27: begin ALU_Ctrl = 6'b100111; signals = 10'b1010000011; end	//nor
+            6'h26: begin ALU_Ctrl = 6'b100110; signals = 10'b1010000011; end	//xor
 				
 				// jr, ASK JACK (not sure man)
 				// ALU_Ctrl is taken from alu.v table
