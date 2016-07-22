@@ -85,10 +85,12 @@ module processor(
 //	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
 	inst_rom #(
 				.ADDR_WIDTH(10),
-//				.INIT_PROGRAM("processor_tb.inst_rom.memh") )					// PASSEd (remember to flip ins bits)
-//				.INIT_PROGRAM("lab4-test/lab4-test.inst_rom.memh") )			// PASSED
-				.INIT_PROGRAM("fib/fib.inst_rom.memh") )							// TO be tested
-//				.INIT_PROGRAM("hello_world/hello_world.inst_rom.memh") )		// To be tested
+//				.INIT_PROGRAM("processor_tb_lab4/processor_tb.inst_rom.memh") )					// PASSEd (Jack's)
+//				.INIT_PROGRAM("lab4-test/lab4-test.inst_rom.memh") )									// PASSED
+//				.INIT_PROGRAM("nbhelloworld/nbhelloworld.inst_rom.memh") )							// PASSED
+				.INIT_PROGRAM("simple_fib_tb/simple_fib_tb.inst_rom.memh") )						// TO be tested (Jack's )
+//				.INIT_PROGRAM("fib/fib.inst_rom.memh") )													// TO be tested
+//				.INIT_PROGRAM("hello_world/hello_world.inst_rom.memh") )								// To be tested
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder2
@@ -224,19 +226,28 @@ module processor(
 	assign JumpOrBranch = BranchOut | JumpOut;
 	
 	data_memory #(  
-//					.INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
-//					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),				// PASS(case terminated
-//					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
-//					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )	
-//					.INIT_PROGRAM0		( "lab4-test/lab4-test.data_ram0.memh" ),		// PASS(printed out Hello world)
+					 
+//					.INIT_PROGRAM0		( "processor_tb_lab4/processor_tb.data_ram0.memh" ),				// PASS(jack's)
+//					.INIT_PROGRAM1    ( "processor_tb_lab4/processor_tb.data_ram1.memh" ),				
+//					.INIT_PROGRAM2    ( "processor_tb_lab4/processor_tb.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "processor_tb_lab4/processor_tb.data_ram3.memh" ) )	
+//					.INIT_PROGRAM0		( "lab4-test/lab4-test.data_ram0.memh" ),								// PASS(printed out Hello world)
 //					.INIT_PROGRAM1    ( "lab4-test/lab4-test.data_ram1.memh" ),
 //					.INIT_PROGRAM2    ( "lab4-test/lab4-test.data_ram2.memh" ),
 //					.INIT_PROGRAM3    ( "lab4-test/lab4-test.data_ram3.memh" ) )	
-					.INIT_PROGRAM0		( "fib/fib.data_ram0.memh" ),						 // TO be tested: 
-					.INIT_PROGRAM1    ( "fib/fib.data_ram1.memh" ),
-					.INIT_PROGRAM2    ( "fib/fib.data_ram2.memh" ),
-					.INIT_PROGRAM3    ( "fib/fib.data_ram3.memh" ) )	
-//					.INIT_PROGRAM0		( "hello_world/hello_world.data_ram0.memh" ), // TO be tested: 
+//					.INIT_PROGRAM0		( "nbhelloworld/nbhelloworld.data_ram0.memh" ),						// PASSED
+//					.INIT_PROGRAM1    ( "nbhelloworld/nbhelloworld.data_ram1.memh" ),
+//					.INIT_PROGRAM2    ( "nbhelloworld/nbhelloworld.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "nbhelloworld/nbhelloworld.data_ram3.memh" ) )	
+					.INIT_PROGRAM0		( "simple_fib_tb/simple_fib_tb.data_ram0.memh" ),					// TO be tested: 
+					.INIT_PROGRAM1    ( "simple_fib_tb/simple_fib_tb.data_ram1.memh" ),
+					.INIT_PROGRAM2    ( "simple_fib_tb/simple_fib_tb.data_ram2.memh" ),
+					.INIT_PROGRAM3    ( "simple_fib_tb/simple_fib_tb.data_ram3.memh" ) )	
+//					.INIT_PROGRAM0		( "fib/fib.data_ram0.memh" ),						 						// TO be tested: 
+//					.INIT_PROGRAM1    ( "fib/fib.data_ram1.memh" ),
+//					.INIT_PROGRAM2    ( "fib/fib.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "fib/fib.data_ram3.memh" ) )	
+//					.INIT_PROGRAM0		( "hello_world/hello_world.data_ram0.memh" ), 						// TO be tested: 
 //					.INIT_PROGRAM1    ( "hello_world/hello_world.data_ram1.memh" ),
 //					.INIT_PROGRAM2    ( "hello_world/hello_world.data_ram2.memh" ),
 //					.INIT_PROGRAM3    ( "hello_world/hello_world.data_ram3.memh" ) )	
