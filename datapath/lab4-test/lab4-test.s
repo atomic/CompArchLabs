@@ -1,4 +1,4 @@
-jal	main
+jal main
 nop	
 printhello:	
 addi	$a2, $a1,24
