@@ -50,7 +50,7 @@ always @(*) begin
 		6'hD:  begin ALU_Ctrl = 6'b100101; signals = 10'b01100000xx; end	//ori
 		6'hE:  begin ALU_Ctrl = 6'b100110; signals = 10'b01100000xx; end	//xori
 		6'hF:  begin // lui
-						 ALU_Ctrl = 6'b100000; signals = 10'b0111010011; 
+						 ALU_Ctrl = 6'b100000; signals = 10'b0111000011; 
 						 lui_rt  = 1;
 		end
 		
@@ -84,10 +84,10 @@ always @(*) begin
 				
 				
 				// with branch(lab 4)
-				6'h21: begin ALU_Ctrl = 6'b100001; signals = 10'b10100000xx; end
-				6'h23: begin ALU_Ctrl = 6'b100011; signals = 10'b10100000xx; end
-				6'h2A: begin ALU_Ctrl = 6'b101000; signals = 10'b10100000xx; end
-				6'h2B: begin ALU_Ctrl = 6'b101001; signals = 10'b10100000xx; end
+				6'h21: begin ALU_Ctrl = 6'b100001; signals = 10'b10100000xx; end	//addu
+				6'h23: begin ALU_Ctrl = 6'b100011; signals = 10'b10100000xx; end	//subu
+				6'h2A: begin ALU_Ctrl = 6'b101000; signals = 10'b10100000xx; end	//slt
+				6'h2B: begin ALU_Ctrl = 6'b101001; signals = 10'b10100000xx; end	//sltu
 				
 //				6'h0:  begin ALU_Ctrl = 6'b100000; signals = 10'b00000000xx; end // nop
 			   6'h0:  begin ALU_Ctrl = 6'b100000; signals = 10'b10100000xx; end // sll, change the signals 

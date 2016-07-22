@@ -24,8 +24,8 @@ module inst_rom (
 	reg [31:0] rom [0:2**ADDR_WIDTH-1];
 	reg [31:0] out;								// uncomment for jack's tests
 	
-//	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes (uncomment for jack's tests)
-	assign data_out      = out;				// jack's
+	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes (uncomment for jack's tests)
+//	assign data_out      = out;				// jack's
 	
 	initial
 	begin
