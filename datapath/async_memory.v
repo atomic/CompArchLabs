@@ -70,20 +70,21 @@ module async_memory(
 	
 	
 	//read data all the time
-	always @(*) begin
-		rd[31:24] <= mem3[addr_in[2+NUM_WORDS_LOG-1:2]];		
-		rd[23:16] <= mem2[addr_in[2+NUM_WORDS_LOG-1:2]];		
-		rd[15:8] <= mem1[addr_in[2+NUM_WORDS_LOG-1:2]];		
-		rd[7:0] <= mem0[addr_in[2+NUM_WORDS_LOG-1:2]];		
-	end
-	
-	//alternate version uses negative edge of clock for memory accesses
-//	always @(negedge clock) begin
+//	always @(*) begin
 //		rd[31:24] <= mem3[addr_in[2+NUM_WORDS_LOG-1:2]];		
 //		rd[23:16] <= mem2[addr_in[2+NUM_WORDS_LOG-1:2]];		
 //		rd[15:8] <= mem1[addr_in[2+NUM_WORDS_LOG-1:2]];		
 //		rd[7:0] <= mem0[addr_in[2+NUM_WORDS_LOG-1:2]];		
 //	end
+	
+	//alternate version uses negative edge of clock for memory accesses
+	always @(negedge clock) begin
+//	always @(posedge clock) begin
+		rd[31:24] <= mem3[addr_in[2+NUM_WORDS_LOG-1:2]];		
+		rd[23:16] <= mem2[addr_in[2+NUM_WORDS_LOG-1:2]];		
+		rd[15:8] <= mem1[addr_in[2+NUM_WORDS_LOG-1:2]];		
+		rd[7:0] <= mem0[addr_in[2+NUM_WORDS_LOG-1:2]];		
+	end
 	
 	//decode address and size into byte-enables
 	reg [3:0] rowWE;

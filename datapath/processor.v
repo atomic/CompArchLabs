@@ -85,21 +85,22 @@ module processor(
 //	inst_rom #(.INIT_PROGRAM("processor.inst_rom.memh")	)
 	inst_rom #(
 				.ADDR_WIDTH(10),
-//				.INIT_PROGRAM("processor_tb.inst_rom.memh") )					// PASSEd (remember to flip ins bits)
+				.INIT_PROGRAM("processor_tb.inst_rom.memh") )					// PASSEd (remember to flip ins bits)
 //				.INIT_PROGRAM("lab4-test/lab4-test.inst_rom.memh") )			// PASSED
 //				.INIT_PROGRAM("fib/fib.inst_rom.memh") )							// TO be tested
-				.INIT_PROGRAM("hello_world/hello_world.inst_rom.memh") )		// To be tested
+//				.INIT_PROGRAM("hello_world/hello_world.inst_rom.memh") )		// To be tested
 				insROM( clock, reset, pc, ins);
 				
 	// Add 4 adder2
 	adder_4 add4toPC( pc, pcn );
 	//always @ (negedge clock) begin
+	
 	always @ (posedge clock) begin
 		if(!reset) begin
 			if( r_jump )
-				pc <= rdata1;	// NOT SURE, ask jack
+				pc <= rdata1-4;	
 			else if( JumpOrBranch )
-				pc <= jump_address;
+				pc <= jump_address-4;
 			else
 				pc <= pcn;
 		end
@@ -223,10 +224,10 @@ module processor(
 	assign JumpOrBranch = BranchOut | JumpOut;
 	
 	data_memory #(  
-//					.INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
-//					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),				// PASS(case terminated
-//					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
-//					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )	
+					.INIT_PROGRAM0( "processor_tb.data_ram0.memh" ),
+					.INIT_PROGRAM1    ( "processor_tb.data_ram1.memh" ),				// PASS(case terminated
+					.INIT_PROGRAM2    ( "processor_tb.data_ram2.memh" ),
+					.INIT_PROGRAM3    ( "processor_tb.data_ram3.memh" ) )	
 //					.INIT_PROGRAM0		( "lab4-test/lab4-test.data_ram0.memh" ),		// PASS(printed out Hello world)
 //					.INIT_PROGRAM1    ( "lab4-test/lab4-test.data_ram1.memh" ),
 //					.INIT_PROGRAM2    ( "lab4-test/lab4-test.data_ram2.memh" ),
@@ -235,10 +236,10 @@ module processor(
 //					.INIT_PROGRAM1    ( "fib/fib.data_ram1.memh" ),
 //					.INIT_PROGRAM2    ( "fib/fib.data_ram2.memh" ),
 //					.INIT_PROGRAM3    ( "fib/fib.data_ram3.memh" ) )	
-					.INIT_PROGRAM0		( "hello_world/hello_world.data_ram0.memh" ), // TO be tested: 
-					.INIT_PROGRAM1    ( "hello_world/hello_world.data_ram1.memh" ),
-					.INIT_PROGRAM2    ( "hello_world/hello_world.data_ram2.memh" ),
-					.INIT_PROGRAM3    ( "hello_world/hello_world.data_ram3.memh" ) )	
+//					.INIT_PROGRAM0		( "hello_world/hello_world.data_ram0.memh" ), // TO be tested: 
+//					.INIT_PROGRAM1    ( "hello_world/hello_world.data_ram1.memh" ),
+//					.INIT_PROGRAM2    ( "hello_world/hello_world.data_ram2.memh" ),
+//					.INIT_PROGRAM3    ( "hello_world/hello_world.data_ram3.memh" ) )	
 
     dMemory(
 
