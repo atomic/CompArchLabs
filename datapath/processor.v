@@ -18,11 +18,11 @@ module processor(
 
 // NOTE: all .memh  files have to have same starting file name
 
-	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
+//	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
 //	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;								// PASSED
 //	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";						// PASSED
 //	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";						// TO be tested (Jack's )
-//	parameter INIT_PROGRAM = 			"fib/fib"; 							// TO be tested
+	parameter INIT_PROGRAM = 			"fib/fib"; 							// TO be tested
 //	parameter INIT_PROGRAM = 			"hello_world/hello_world";
 
 	
@@ -81,6 +81,7 @@ module processor(
 	/////////////////// wires for MEM //////////////////////////
 	//Data Memory Component
 	wire [31:0]     output_data;
+	wire [31:0]     output_data_split;
 	wire [31:0]     DMemory_tmp;
 //	wire [31:0]     DMemory_tmp2;
 	wire 				 load_sign;
@@ -244,7 +245,7 @@ module processor(
         .re_in           ( MemRead         ),
         .we_in           ( MemWrite        ),
         .size_in         ( size_in         ),
-		  .sign				 ( load_sign		 ),
+//		  .sign				 ( load_sign		 ),
         .readdata_out    ( output_data     ),
         .serial_in       ( serial_in       ),
         .serial_ready_in ( serial_ready_in ),
@@ -253,11 +254,13 @@ module processor(
         .serial_rden_out ( serial_rden_out ),
         .serial_wren_out ( serial_wren_out )
     );
+	 
+	 split_byte SplitByte ( size_in, load_sign, ALU_out, output_data, output_data_split );
 
 	//  mux for data memory to determine whether to write to register
     //  the result of ALU or the value loaded from memory
 	mux2to1 #(32) DmemoryToRegfile_mux (
-                    .B_in   ( output_data ) ,// MemToReg == 1
+                    .B_in   ( output_data_split ) ,// MemToReg == 1
                     .A_in   ( ALU_out     ) ,// MemToReg == 0
                     .sel_in ( MemToReg    ) ,
                     .Y_out  ( DMemory_tmp )

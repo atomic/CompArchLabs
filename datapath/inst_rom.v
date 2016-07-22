@@ -24,10 +24,10 @@ module inst_rom (
 	
 
 	reg [31:0] rom [0:2**ADDR_WIDTH-1];
-	reg [31:0] out;								// uncomment for jack's tests
+	reg [31:0] out;
 	
-//	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; //flip bytes (uncomment for jack's tests)
-	assign data_out = out;
+	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; 
+//	assign data_out = out; //flip bytes (for jack's tests)
 	
 	initial
 	begin
@@ -36,9 +36,9 @@ module inst_rom (
 	
 	always @(posedge clock) begin
 		if (reset) begin
-			out <= 32'h00000000;							// change to data_out for jack's test
+			out <= 32'h00000000;							
 		end else begin
-			out <= rom[addr_in[ADDR_WIDTH+1:2]];   // change to data_out for jack's test
+			out <= rom[addr_in[ADDR_WIDTH+1:2]]; 
 		end
 	end
 
