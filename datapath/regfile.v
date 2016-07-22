@@ -16,6 +16,8 @@ module regfile#(parameter W = 32)(
 	
 	initial begin
 		array[0] = 0;
+		array[28] = 32'h10008000;
+		array[29] = 32'h7fffeffc;
 	end
 	
 	// Read --> ALU stuff -> Write (In 1 clock cycle)
