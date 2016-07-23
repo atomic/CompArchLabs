@@ -16,14 +16,18 @@ module processor(
 	output          serial_wren_out
 );
 
+	parameter FLIP_INS_BIT = 1; //defaults
+//	parameter FLIP_INS_BIT = 0; //jacks
+	
 // NOTE: all .memh  files have to have same starting file name
 
 //	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
-//	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;								// PASSED
-//	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";						// PASSED
-//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";						// TO be tested (Jack's )
-	parameter INIT_PROGRAM = 			"fib/fib"; 							// TO be tested
-//	parameter INIT_PROGRAM = 			"hello_world/hello_world";
+//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's)
+
+//	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)
+//	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
+	parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
+//	parameter INIT_PROGRAM = 			"fib/fib"; 										// TO be tested
 
 	
 	// wires for instruction fetch	
@@ -59,8 +63,6 @@ module processor(
 	
 	wire [31:0] 	 added_address; // not sure if this is correct (pcn might be modified)
 	wire [27:0]     inst_shift;
-//	wire [27:0]		 inst_shift_before;
-//	wire [28:0]		 inst_shift_after;
 	wire [31:0]		 inst_and_pc;
 	wire [31:0]     jump_address;
 	
@@ -83,17 +85,17 @@ module processor(
 	wire [31:0]     output_data;
 	wire [31:0]     output_data_split;
 	wire [31:0]     DMemory_tmp;
-//	wire [31:0]     DMemory_tmp2;
 	wire 				 load_sign;
 	
 	// wires for writeback
 	
 
-	
 	// PC into instruction memory
-	inst_rom #( .ADDR_WIDTH(10), 
+	inst_rom #( .ADDR_WIDTH(10),
 	
+		.FLIP_INS_BIT( FLIP_INS_BIT ),
 		.INIT_PROGRAM( {INIT_PROGRAM ,".inst_rom.memh" } ) 
+		
 		
 	) insROM( clock, reset, pc, ins);
 				
@@ -245,7 +247,6 @@ module processor(
         .re_in           ( MemRead         ),
         .we_in           ( MemWrite        ),
         .size_in         ( size_in         ),
-//		  .sign				 ( load_sign		 ),
         .readdata_out    ( output_data     ),
         .serial_in       ( serial_in       ),
         .serial_ready_in ( serial_ready_in ),

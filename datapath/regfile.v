@@ -31,7 +31,7 @@ module regfile#(parameter W = 32)(
 		end
 		else begin 
 			if (regwrite && jal_ra) begin
-				array[31]    <= write_data_in;
+				array[31]    <= write_data_in; // not a problem here
 			end
 			else if ( regwrite && memread && wr_in != 0 ) begin
 				array[wr_in] <= write_data_in;

@@ -20,13 +20,13 @@ module inst_rom (
 );
 	parameter ADDR_WIDTH=8;
 	parameter INIT_PROGRAM="";
-//	parameter FLIP_INS_BIT = 1;
+	parameter FLIP_INS_BIT = 1;
 	
 
 	reg [31:0] rom [0:2**ADDR_WIDTH-1];
 	reg [31:0] out;
 	
-	assign data_out = {out[7:0],out[15:8],out[23:16],out[31:24]}; 
+	assign data_out = ( FLIP_INS_BIT == 1 ? {out[7:0],out[15:8],out[23:16],out[31:24]} : out ); 
 //	assign data_out = out; //flip bytes (for jack's tests)
 	
 	initial
