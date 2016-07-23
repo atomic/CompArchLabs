@@ -29,16 +29,15 @@ module regfile#(parameter W = 32)(
 				array[i] <= 0;
 			end
 		end
-		else begin 
-			if (regwrite && jal_ra) begin
-				array[31]    <= write_data_in; // not a problem here
-			end
-			else if ( regwrite && memread && wr_in != 0 ) begin
-				array[wr_in] <= write_data_in;
-			end
-			else if	(regwrite && wr_in != 0) begin
-				array[wr_in] <= write_data_in;
-			end
+		else if (regwrite) begin 
+			array[ (jal_ra ? 31 : wr_in) ] <= write_data_in;
+//			
+//			if (jal_ra) begin
+//				array[31]    <= write_data_in; // not a problem here
+//			end
+//			else if	(regwrite && wr_in != 0) begin
+//				array[wr_in] <= write_data_in;
+//			end
 		end
 	end
 
