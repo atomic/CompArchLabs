@@ -23,6 +23,9 @@ module processor(
 
 //	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
 	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's) : Loop forever
+	// checkpoint : 5966615 ps (everything fine up to here)
+	// checkpoint : 1190000 ps, 1190 ns (everything fine up to here, pc at 0x40005c)
+	
 	// Problem: for R instruction, the write back happends too early
 	
 //	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)

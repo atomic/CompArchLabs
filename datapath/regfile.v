@@ -17,11 +17,11 @@ module regfile#(parameter W = 32)(
 	initial begin
 		array[0] = 0;
 		// for PCspim in jack's tests
-		array[4]  = 32'h1;
-		array[5]  = 32'h7fffef88;
-		array[6]  = 32'h7fffef90;
+//		array[4]  = 32'h1;
+//		array[5]  = 32'h7fffef88;
+//		array[6]  = 32'h7fffef90;
 		array[28] = 32'h10008000;
-		array[29] = 32'h7fffef84;
+		array[29] = 32'h7fffeffc;
 	end
 	
 	// Read --> ALU stuff -> Write (In 1 clock cycle)

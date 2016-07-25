@@ -93,7 +93,7 @@ MAIN:
       sll      $zero, $zero, 0
       add      $t0, $zero, $v0
       addi     $t1, $zero, 3        # expected result: fib(4) := 3
-      bne      $t0, $t1, FAILED
+      bne      $t0, $t1, FAILED													# CORRECT: PASSED
 
 
       # optional display on MIPS console
@@ -105,7 +105,7 @@ MAIN:
 ###############################################################################
 ## looped Fibonacci test case (1 to n)
 ###############################################################################
-      addi     $s7, $zero, 2        # test case := 1
+      addi     $s7, $zero, 2        # test case := 1						# Problem: different stack pointer
       
       # Change the jump address depending on your ssl implementation
       #j        SSL_IMPLEMENTED      

@@ -13,6 +13,7 @@ module shift_left_amt #(parameter W = 32) (
 	
 	if( opcode == 6'h0 && funct == 6'h0)
 		data_out = data_in << shamt;
+//		data_out = data_in;
 	else
 		data_out = data_in;
 	end
