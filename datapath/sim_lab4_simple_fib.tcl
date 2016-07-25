@@ -5,7 +5,7 @@ vsim work.simple_fib_tb
 #------------------------------------------------------------------------------
 
 # processor_tb
-add wave    -noupdate   -group {tb}           -radix hexadecimal    /simple_fib_tb/*
+# add wave    -noupdate   -group {tb}           -radix hexadecimal    /simple_fib_tb/*
 
 
 # update the name of your modules
@@ -14,16 +14,16 @@ add wave    -noupdate   -group {tb}           -radix hexadecimal    /simple_fib_
 add wave    -noupdate   -group {processor}    -radix hexadecimal    /simple_fib_tb/dut/*
 
 # instruction memory
-add wave    -noupdate   -group {inst_rom}         -radix hexadecimal    /simple_fib_tb/dut/insROM/*
+# add wave    -noupdate   -group {inst_rom}         -radix hexadecimal    /simple_fib_tb/dut/insROM/*
 
 # register file
-add wave    -noupdate   -group {regfile}           -radix hexadecimal    /simple_fib_tb/dut/RegFile/*
+add wave    -noupdate   -group {regfile}           -radix hexadecimal    /simple_fib_tb/dut/RegFile/array
 
 # alu
-add wave    -noupdate   -group {alu}          -radix hexadecimal    /simple_fib_tb/dut/ALU/*
+# add wave    -noupdate   -group {alu}          -radix hexadecimal    /simple_fib_tb/dut/ALU/*
 
 # data memory
-add wave    -noupdate   -group {data_memory}         -radix hexadecimal    /simple_fib_tb/dut/dMemory/*
+# add wave    -noupdate   -group {data_memory}         -radix hexadecimal    /simple_fib_tb/dut/dMemory/*
 
 # Use short names
 configure wave -signalnamewidth 1

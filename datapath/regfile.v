@@ -16,8 +16,12 @@ module regfile#(parameter W = 32)(
 	
 	initial begin
 		array[0] = 0;
+		// for PCspim in jack's tests
+		array[4]  = 32'h1;
+		array[5]  = 32'h7fffef88;
+		array[6]  = 32'h7fffef90;
 		array[28] = 32'h10008000;
-		array[29] = 32'h7fffeffc;
+		array[29] = 32'h7fffef84;
 	end
 	
 	// Read --> ALU stuff -> Write (In 1 clock cycle)
@@ -26,18 +30,11 @@ module regfile#(parameter W = 32)(
 	always @(posedge clock) begin
 		if( reset ) begin
 			for( i = 0; i < 32; i = i + 1) begin
-				array[i] <= 0;
+//				array[i] <= 0; // Used to test jack's simple fib
 			end
 		end
 		else if (regwrite) begin 
 			array[ (jal_ra ? 31 : wr_in) ] <= write_data_in;
-//			
-//			if (jal_ra) begin
-//				array[31]    <= write_data_in; // not a problem here
-//			end
-//			else if	(regwrite && wr_in != 0) begin
-//				array[wr_in] <= write_data_in;
-//			end
 		end
 	end
 

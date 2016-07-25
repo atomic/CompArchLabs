@@ -16,18 +16,20 @@ module processor(
 	output          serial_wren_out
 );
 
-	parameter FLIP_INS_BIT = 1; //defaults
-//	parameter FLIP_INS_BIT = 0; //jacks
+//	parameter FLIP_INS_BIT = 1; //defaults
+	parameter FLIP_INS_BIT = 0; //jacks
 	
 // NOTE: all .memh  files have to have same starting file name
 
 //	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
-//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's)
-
+	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's) : Loop forever
+	// Problem: for R instruction, the write back happends too early
+	
 //	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)
 //	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
-	parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
-//	parameter INIT_PROGRAM = 			"fib/fib"; 										// TO be tested
+//	parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
+//	parameter INIT_PROGRAM = 			"fib/fib"; 										// FAILED: Loop forever
+//	parameter INIT_PROGRAM = 			"fib_old/fib_old"; 							// FAILED: Loop forever
 
 	
 	// wires for instruction fetch	
@@ -45,8 +47,7 @@ module processor(
 	// control unit
 	wire [9:0]      signals;
 	wire [5:0]      opcode, funct;
-	wire            RegDst, ALUsrc, RegWrite, 
-                    MemRead, MemWrite, MemToReg, Branch, Jump;
+	wire            RegDst, ALUsrc, RegWrite, MemRead, MemWrite, MemToReg, Branch, Jump;
 	wire [1:0] 		 size_in;
 	
 	// Wires for Register FIle
