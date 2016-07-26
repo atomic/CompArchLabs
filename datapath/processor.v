@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+//`include "definitions.vh"
 
 module processor(
 
@@ -17,22 +18,18 @@ module processor(
 );
 
 	parameter FLIP_INS_BIT = 1; //defaults
-//	parameter FLIP_INS_BIT = 0; //jacks
+	//parameter FLIP_INS_BIT = 0; //jacks
 	
 // NOTE: all .memh  files have to have same starting file name
+//parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's), was passing, now not passing, PASSED But testbench behave weird
+//parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// PASSED (Jack's) : Loop forever, now pasSED
 
-//	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's), was passing, now not passing, PASSED But testbench behave weird
-//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// PASSED (Jack's) : Loop forever, now pasSED
-	// checkpoint : 5966615 ps (everything fine up to here)
-	// checkpoint : 1190000 ps, 1190 ns (everything fine up to here, pc at 0x40005c)
-	
-	// Problem: for R instruction, the write back happends too early
-	
-//	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)
-//	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
-//	parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
-	parameter INIT_PROGRAM = 			"fib/fib"; 										// FAILED: Loop forever
-//	parameter INIT_PROGRAM = 			"fib_old/fib_old"; 							// FAILED: Loop forever
+//parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)
+parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
+//parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
+//parameter INIT_PROGRAM = 			"fib/fib"; 										// FAILED: sra not implemented
+//parameter INIT_PROGRAM = 			"fib_old/fib_old"; 							// PASSED: Loop forever
+
 
 	
 	// wires for instruction fetch	
