@@ -117,6 +117,27 @@ parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
 		end
 	end
 	
+	struct IFED {
+		reg [31:0] pc;
+		reg [31:0] ins;
+	
+	} FD_reg = {pcn, ins};
+	
+	struct IDEX {
+		reg RegDst, ALUsrc, RegWrite, MemRead, MemWrite, MemToReg, Branch, Jump;
+		reg [1:0] size_in;
+		reg [31:0] inst_and_pc; // 28 bit appeneded by 4 bit of pc
+		reg [31:0] pc;				
+		reg [31:0] rdata1;
+		reg [31:0] rdata2;
+		reg [31:0] extended_s;
+		reg [31:0] ReadWriteOut;
+		
+	}  DX = {}; // TODO;
+	
+//	struct XM, WB
+
+
 //	
 //	struct fd {
 //		instr;
