@@ -22,7 +22,7 @@ module processor(
 // NOTE: all .memh  files have to have same starting file name
 
 //	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's), was passing, now not passing, PASSED But testbench behave weird
-//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's) : Loop forever, now pasSED
+//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// PASSED (Jack's) : Loop forever, now pasSED
 	// checkpoint : 5966615 ps (everything fine up to here)
 	// checkpoint : 1190000 ps, 1190 ns (everything fine up to here, pc at 0x40005c)
 	
@@ -119,6 +119,33 @@ module processor(
 				pc <= pcn;
 		end
 	end
+	
+//	
+//	struct fd {
+//		instr;
+//		pc
+//	}
+//	
+//	struct dx {
+//		instr;
+//		pc
+//		ctrl
+//	
+//	}
+//	
+//	struct ctrl {
+//		w1
+//		w2
+//		w3
+//	}
+//	
+//	dx <= fd
+//	dx.ctrl <= ctrl
+//	
+//	dx_instruction <= fd_instruction
+//	dx_control_ctorl1 <= fd_control_ctr1
+	
+	
 	
 	// instruction memory to bus split wires(a,b,c,d see
 	inst_rom_split instruction_splitter_mod (
