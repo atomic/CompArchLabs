@@ -35,6 +35,7 @@ module regfile#(parameter W = 32)(
 		end
 		else if (regwrite) begin 
 			array[ (jal_ra ? 31 : wr_in) ] <= write_data_in;
+//			array[ (jal_ra ? 31 : wr_in) ] <= ( jal_ra ? write_data_in - 4 : write_data_in);
 		end
 	end
 

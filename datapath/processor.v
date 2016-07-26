@@ -16,13 +16,13 @@ module processor(
 	output          serial_wren_out
 );
 
-//	parameter FLIP_INS_BIT = 1; //defaults
-	parameter FLIP_INS_BIT = 0; //jacks
+	parameter FLIP_INS_BIT = 1; //defaults
+//	parameter FLIP_INS_BIT = 0; //jacks
 	
 // NOTE: all .memh  files have to have same starting file name
 
-//	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's)
-	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's) : Loop forever
+//	parameter INIT_PROGRAM = 			"processor_tb/processor_tb"; 				// PASSEd (Jack's), was passing, now not passing, PASSED But testbench behave weird
+//	parameter INIT_PROGRAM = 			"simple_fib_tb/simple_fib_tb";			// FAILED (Jack's) : Loop forever, now pasSED
 	// checkpoint : 5966615 ps (everything fine up to here)
 	// checkpoint : 1190000 ps, 1190 ns (everything fine up to here, pc at 0x40005c)
 	
@@ -31,7 +31,7 @@ module processor(
 //	parameter INIT_PROGRAM = 			"lab4-test/lab4-test" ;						// PASSED (3 us)
 //	parameter INIT_PROGRAM = 			"nbhelloworld/nbhelloworld";				// PASSED (1 us)
 //	parameter INIT_PROGRAM = 			"hello_world/hello_world";					// PASSED (15 us)
-//	parameter INIT_PROGRAM = 			"fib/fib"; 										// FAILED: Loop forever
+	parameter INIT_PROGRAM = 			"fib/fib"; 										// FAILED: Loop forever
 //	parameter INIT_PROGRAM = 			"fib_old/fib_old"; 							// FAILED: Loop forever
 
 	
@@ -110,9 +110,11 @@ module processor(
 	always @ (posedge clock) begin
 		if(!reset) begin
 			if( r_jump )
-				pc <= rdata1-4;	
+				pc <= rdata1;	
+			else if( JumpOrBranch && Jump )		// HAXOR
+				pc <= jump_address;
 			else if( JumpOrBranch )
-				pc <= jump_address-4;
+				pc <= jump_address - 4; // cause problem with other parts if no -4, but -4 cause branch to execute instruction before branch
 			else
 				pc <= pcn;
 		end
